@@ -1,0 +1,33 @@
+{{> sidebar }}
+<div class="main-panel">
+  {{> nav }}
+  <div class="content">
+    <div class="row">
+      Update
+      <div class="col-lg-12 col-md-12 col-xs-12">
+        <form action="/admin/music/update-music-action" method="post">
+          {{# each music }}
+            <div class="input">
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title" value={{ this.title }}>
+            </div>
+            <div class="input">
+                <label for="content">Url</label>
+                <input type="text" id="url" name="url" value={{ this.url }}>
+            </div>
+            <div class="input">
+                <label for="author">Auteur</label>
+                <input type="text" id="author" name="author" value={{ this.author }}>
+            </div>
+            <div class="input">
+                <label for="style">Styles</label>
+                <input type="text" id="style" name="style" value={{ this.style }}>
+            </div>
+            <input type="hidden" id="_id" name="_id" value={{ this._id }}>
+            <button type="submit">Mettre à jour</button>
+          {{/each}}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

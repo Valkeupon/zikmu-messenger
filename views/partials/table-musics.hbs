@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header" data-background-color="orange">
+        <h4 class="title">Listes Musiques</h4>
+        <p class="category">Nouvelles musiques publié 15th September, 2016</p>
+    </div>
+    <div class="card-content table-responsive">
+        <table class="table table-hover">
+            <thead class="text-warning">
+                <th>Titre</th>
+                <th>Url</th>
+                <th>Auteur</th>
+                <th>Style</th>
+            </thead>
+            <tbody>
+              {{# each musics }}
+                  <tr>
+                      <td>{{ this.title }}</td>
+                      <td>{{ this.url }}</td>
+                      <td>{{ this.author }}</td>
+                      <td>{{ this.style }}</td>
+                      <td><a href="/admin/music/update-music/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                      <td>
+                        <form action="/admin/music/delete-music-action" method="post">
+                          <input type="hidden" id="_id" name="_id" value={{ this._id }}>
+                          <button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </form>
+                      </td>
+                  </tr>
+              {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

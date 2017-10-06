@@ -1,0 +1,55 @@
+
+
+/*!
+
+ =========================================================
+ * Material Dashboard - v1.2.0
+ =========================================================
+
+ * Product Page: http://www.creative-tim.com/product/material-dashboard
+ * Copyright 2017 Creative Tim (http://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/material-dashboard/blob/master/LICENSE.admin)
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+//ADMIN
+
+//variables and mixins
+@import "./admin/variables";
+@import "./admin/mixins";
+@import "./admin/shadows";
+
+//plugin css
+@import "./admin/plugins/_plugin-nouislider";
+@import "./admin/plugins/_animate";
+@import "./admin/plugins/_perfect-scrollbar";
+
+// Core CSS
+@import "./admin/typography";
+@import "./admin/sidebar-and-main-panel";
+@import "./admin/buttons";
+@import "./admin/misc";
+@import "./admin/inputs";
+@import "./admin/forms";
+@import "./admin/alerts";
+@import "./admin/tables";
+@import "./admin/checkboxes";
+@import "./admin/radios";
+@import "./admin/togglebutton";
+@import "./admin/ripples";
+@import "./admin/pagination";
+@import "./admin/pills";
+@import "./admin/dialogs";
+@import "./admin/navbars";
+@import "./admin/popups";
+@import "./admin/footers";
+
+// Fancy Stuff
+@import "./admin/dropdown";
+@import "./admin/cards";
+@import "./admin/tabs";
+@import "./admin/chartist";
+@import "./admin/responsive";
