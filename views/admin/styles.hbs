@@ -1,0 +1,22 @@
+{{> sidebar }}
+<div class="main-panel">
+  {{> nav }}
+  <div class="content">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-xs-12">
+        <form action="/admin/styles/insert-style" method="post">
+            <div class="input">
+                <label for="title">Nom du style</label>
+                <input type="text" id="title" name="title">
+            </div>
+            <button type="submit">Ajouter</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="col-lg-12 col-md-12">
+        {{> table-styles styles= items }}
+    </div>
+  </div>
+</div>

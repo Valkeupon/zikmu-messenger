@@ -4,6 +4,7 @@ var async = require('async');
 var users = require('../collections/users');
 var musics = require('../collections/musiques');
 var groupes = require('../collections/groupes');
+var styles = require('../collections/styles');
 var sess;
 
   //display login page
@@ -226,4 +227,34 @@ var sess;
   });
 
 
+    //display page styles
+    router.get('/styles', function(req, res, next) {
+        sess = req.session;
+        if(sess.email) {
+            groupes.find({ archived: false })
+                .then(function(doc) {
+                    res.render('admin/styles', {items: doc});
+                });
+        }
+        else {
+            res.redirect('/admin');
+        }
+    });
+    //action insert styles
+    router.post('/styles/insert-style', function(req, res, next) {
+        if(!req.body.title){
+            return;
+        }
+
+        var item = {
+            title: req.body.title,
+        };
+
+        console.log("INSERT ----> ", item );
+
+        var data = new styles(item);
+        data.save();
+
+        res.redirect('/admin/styles');
+    });
   module.exports = router;

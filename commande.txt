@@ -1,0 +1,2 @@
+Lancer mongo via la commande cd
+npm start

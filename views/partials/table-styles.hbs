@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="card-header" data-background-color="orange">
+        <h4 class="title">Listes des styles</h4>
+        <p class="category">Nouveaux styles publié 15th September, 2016</p>
+    </div>
+    <div class="card-content table-responsive">
+        <table class="table table-hover">
+            <thead class="text-warning">
+                <th>Styles</th>
+            </thead>
+            <tbody>
+              {{# each styles }}
+                  <tr>
+                      <td>{{ this.title }}</td>
+                      <td><a href="/admin/styles/update-style/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                      <td>
+                        <form action="/admin/styles/delete-style-action" method="post">
+                          <input type="hidden" id="_id" name="_id" value={{ this._id }}>
+                          <button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </form>
+                      </td>
+                  </tr>
+              {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
