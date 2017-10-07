@@ -1,0 +1,21 @@
+{{> sidebar }}
+<div class="main-panel">
+  {{> nav }}
+  <div class="content">
+    <div class="row">
+      Update
+      <div class="col-lg-12 col-md-12 col-xs-12">
+        <form action="/admin/groupes/update-groupe-action" method="post">
+          {{# each groupe }}
+            <div class="input">
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title" value={{ this.title }}>
+            </div>
+            <input type="hidden" id="_id" name="_id" value={{ this._id }}>
+            <button type="submit">Mettre à jour</button>
+          {{/each}}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

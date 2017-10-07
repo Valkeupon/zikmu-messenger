@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var async = require('async');
 var users = require('../collections/users');
 var musics = require('../collections/musiques');
+var groupes = require('../collections/groupes');
 var sess;
 
   //display login page
@@ -45,11 +47,32 @@ var sess;
   //display page music
   router.get('/music', function(req, res, next) {
     sess = req.session;
+    var data = {};
+
     if(sess.email) {
-      musics.find({ archived: false })
-          .then(function(doc) {
-            res.render('admin/music', {items: doc});
-        });
+      var tasks = [
+         function(callback) {
+             musics.find({ archived: false }).then(function(elem, err) {
+                 if (err) return callback(err);
+                 data.musics = elem;
+                 callback();
+             });
+         },
+         function(callback) {
+             groupes.find({ archived: false }).then(function(elem, err) {
+                 if (err) return callback(err);
+                 data.groupes = elem;
+                 callback();
+             });
+         }
+       ];
+       async.parallel(tasks, function(err) {
+          if (err) return next(err);
+          res.render('admin/music', {
+            items: data.musics,
+            groupes: data.groupes,
+          });
+      });
     }
     else {
       res.redirect('/admin');
@@ -60,20 +83,32 @@ var sess;
     if(!req.body.title || !req.body.url || !req.body.author || !req.body.style){
       return;
     }
-
     var item = {
       title: req.body.title,
       url: req.body.url,
-      author: req.body.author,
-      style: req.body.style,
+      styles: [req.body.style],
     };
 
-    console.log("INSERT ----> ", item );
+    var tasks = [
+       function(callback) {
+           groupes.findOne({ _id: req.body.author, archived: false }).then(function(elem, err) {
+               if (err) return callback(err);
+               item.author = {
+                 _id: elem._id,
+                 name: elem.title,
+               }
+               callback();
+           });
+       }
+     ];
 
-    var data = new musics(item);
-    data.save();
-
-    res.redirect('/admin/music');
+    async.parallel(tasks, function(err) {
+       if (err) return next(err);
+       console.log("INSERT ----> ", item );
+       var data = new musics(item);
+       data.save();
+       res.redirect('/admin/music');
+   });
   });
   //display update music page
   router.get('/music/update-music/:_id', function(req, res, next) {
@@ -117,6 +152,77 @@ var sess;
       doc.save();
     })
     res.redirect('/admin/music');
+  });
+  //display page groupe
+  router.get('/groupes', function(req, res, next) {
+    sess = req.session;
+    if(sess.email) {
+      groupes.find({ archived: false })
+          .then(function(doc) {
+            res.render('admin/groupes', {items: doc});
+        });
+    }
+    else {
+      res.redirect('/admin');
+    }
+  });
+  //Action insert groupes
+  router.post('/groupes/insert-groupe', function(req, res, next) {
+    if(!req.body.title){
+      return;
+    }
+
+    var item = {
+      title: req.body.title,
+    };
+
+    console.log("INSERT ----> ", item );
+
+    var data = new groupes(item);
+    data.save();
+
+    res.redirect('/admin/groupes');
+  });
+  //display update groupes page
+  router.get('/groupes/update-groupe/:_id', function(req, res, next) {
+    var id = req.params._id;
+
+    groupes.find({ _id: id })
+        .then(function(doc) {
+          if(!doc || doc.length <= 0){
+            res.redirect('/admin/groupes');
+          }else{
+            res.render('admin/groupe-update',  { groupe: doc });
+          }
+      });
+  });
+  //action update groupes
+  router.post('/groupes/update-groupe-action', function(req, res, next) {
+    var id = req.body._id;
+
+    groupes.findById(id, function(err, doc) {
+      if (err) {
+        console.error('error, no entry found');
+      }
+      doc.title = req.body.title;
+
+      doc.save();
+    })
+    res.redirect('/admin/groupes')
+  });
+  //action delete music
+  router.post('/groupes/delete-groupe-action', function(req, res, next) {
+    var id = req.body._id;
+
+    groupes.findById(id, function(err, doc) {
+      if (err) {
+        console.error('error, no entry found');
+      }
+      doc.archived = true;
+
+      doc.save();
+    })
+    res.redirect('/admin/groupes');
   });
 
 

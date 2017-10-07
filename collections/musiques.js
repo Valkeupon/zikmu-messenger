@@ -1,5 +1,15 @@
 var config = require('./collections');
 
+var style = [{
+  type: String,
+  required: false
+}];
+
+var groupes = {
+  _id: String,
+  name: String
+};
+
 var musicDataSchema = config.Schema({
   title: {
     type: String,
@@ -10,11 +20,11 @@ var musicDataSchema = config.Schema({
     required: true
   },
   author: {
-    type: String,
+    type: groupes,
     required: true
   },
-  style: {
-    type: String,
+  styles: {
+    type: [style],
     required: true
   },
   archived: {

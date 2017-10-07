@@ -1,6 +1,32 @@
 var config = require('./collections');
 
+var musics = [{
+  musicId: String,
+  like: Boolean,
+  sendAt: {
+    type: Date,
+    default: new Date()
+  }
+}];
+
+var styles = [{
+  styleId: String,
+  archived: {
+    type: Boolean,
+    default: false,
+    required: false
+  }
+}];
+
 var userDataSchema = config.Schema({
+  firstName: {
+    type: String,
+    required: false
+  },
+  lastName: {
+    type: String,
+    required: false
+  },
   email: {
     type: String,
     required: true
@@ -13,12 +39,32 @@ var userDataSchema = config.Schema({
     type: String,
     required: true
   },
+  musicPlayed: {
+    type: [musics],
+    required: false,
+  },
+  actif: {
+    type: String,
+    required: true,
+    default: true
+  },
+  recurrence: {
+    type: String,
+    required: false,
+  },
+  choiceOfStyle: {
+    type: [styles],
+    required: false,
+  },
+  profileImg: {
+    type: String,
+    required: false,
+  },
   archived: {
     type: Boolean,
     required: true,
     default: false
-  },
-
+  }
 }, {collection: 'users'});
 
 var UserData = config.mongoose.model('UserData', userDataSchema);

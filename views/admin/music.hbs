@@ -14,8 +14,12 @@
                 <input type="text" id="url" name="url">
             </div>
             <div class="input">
-                <label for="author">Auteur</label>
-                <input type="text" id="author" name="author">
+                <label for="author">Groupes</label>
+                <select type="text" id="author" name="author">
+                  {{# each groupes }}
+                    <option value={{ this._id }}>{{ this.title }}</option>
+                  {{/each}}
+                </select
             </div>
             <div class="input">
                 <label for="style">Styles</label>
