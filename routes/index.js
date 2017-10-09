@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var users = require('../collections/users');
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   users.find()
@@ -58,5 +57,6 @@ router.post('/delete', function(req, res, next) {
   UserData.findByIdAndRemove(id).exec();
   res.redirect('/');
 });
+
 
 module.exports = router;

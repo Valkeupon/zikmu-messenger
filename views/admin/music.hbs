@@ -19,11 +19,15 @@
                   {{# each groupes }}
                     <option value={{ this._id }}>{{ this.title }}</option>
                   {{/each}}
-                </select
+                </select>
             </div>
             <div class="input">
                 <label for="style">Styles</label>
-                <input type="text" id="style" name="style">
+                <select type="text" id="style" name="style">
+                  {{# each styles }}
+                    <option value={{ this._id }}>{{ this.title }}</option>
+                  {{/each}}
+                </select>
             </div>
             <button type="submit">Ajouter</button>
         </form>

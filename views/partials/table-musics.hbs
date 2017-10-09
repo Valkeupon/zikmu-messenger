@@ -17,7 +17,7 @@
                       <td>{{ this.title }}</td>
                       <td>{{ this.url }}</td>
                       <td>{{ this.author.name }}</td>
-                      <td>{{# styles }}<span>{{ this }}</span>{{/styles}}</td>
+                      <td><span>{{#styles}}{{ this.name }}{{/styles}}</span></td>
                       <td><a href="/admin/music/update-music/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
                       <td>
                         <form action="/admin/music/delete-music-action" method="post">

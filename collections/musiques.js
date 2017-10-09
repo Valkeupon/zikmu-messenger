@@ -1,8 +1,8 @@
 var config = require('./collections');
 
 var style = [{
-  type: String,
-  required: false
+  _id: String,
+  name: String
 }];
 
 var groupes = {
@@ -24,7 +24,7 @@ var musicDataSchema = config.Schema({
     required: true
   },
   styles: {
-    type: [style],
+    type: style,
     required: true
   },
   archived: {

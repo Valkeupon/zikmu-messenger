@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('express-handlebars');
+var handlebarsHelpers = require('./helpers/handlebars');
 
 var routes = require('./routes/index');
 var admin = require('./routes/admin');
@@ -17,7 +18,8 @@ app.engine('hbs', hbs({
   extname: 'hbs',
   defaultLayout: 'layout',
   layoutsDir: __dirname + '/views/layouts/',
-  partialsDir: __dirname + '/views/partials/'
+  partialsDir: __dirname + '/views/partials/',
+  helpers: handlebarsHelpers
 }));
 
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +45,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 console.log("ENV --->", app.get('env'));

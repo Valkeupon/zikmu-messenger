@@ -65,13 +65,22 @@ var sess;
                  data.groupes = elem;
                  callback();
              });
+         },
+         function(callback) {
+             styles.find({ archived: false }).then(function(elem, err) {
+                 if (err) return callback(err);
+                 data.styles = elem;
+                 callback();
+             });
          }
        ];
        async.parallel(tasks, function(err) {
           if (err) return next(err);
+          console.log("DISPLAY ---> ", data);
           res.render('admin/music', {
             items: data.musics,
             groupes: data.groupes,
+            styles: data.styles
           });
       });
     }
@@ -95,6 +104,16 @@ var sess;
            groupes.findOne({ _id: req.body.author, archived: false }).then(function(elem, err) {
                if (err) return callback(err);
                item.author = {
+                 _id: elem._id,
+                 name: elem.title,
+               }
+               callback();
+           });
+       },
+       function(callback) {
+           styles.findOne({ _id: req.body.style, archived: false }).then(function(elem, err) {
+               if (err) return callback(err);
+               item.styles = {
                  _id: elem._id,
                  name: elem.title,
                }
@@ -231,12 +250,11 @@ var sess;
     router.get('/styles', function(req, res, next) {
         sess = req.session;
         if(sess.email) {
-            groupes.find({ archived: false })
+            styles.find({ archived: false })
                 .then(function(doc) {
                     res.render('admin/styles', {items: doc});
                 });
-        }
-        else {
+        } else {
             res.redirect('/admin');
         }
     });
@@ -257,4 +275,5 @@ var sess;
 
         res.redirect('/admin/styles');
     });
+    
   module.exports = router;
