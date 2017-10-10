@@ -11,13 +11,14 @@
                 <label for="title">Titre</label>
                 <input type="text" id="title" name="title" value={{ this.title }}>
             </div>
+            {{ log this }}
             <div class="input">
                 <label for="content">Url</label>
                 <input type="text" id="url" name="url" value={{ this.url }}>
             </div>
             <div class="input">
                 <label for="author">Auteur</label>
-                <input type="text" id="author" name="author" value={{ this.author }}>
+                <input type="text" id="author" name="author" value={{ this.author.name }}>
             </div>
             <div class="input">
                 <label for="style">Styles</label>

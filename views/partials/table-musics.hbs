@@ -9,7 +9,7 @@
                 <th>Titre</th>
                 <th>Url</th>
                 <th>Auteur</th>
-                <th>Style</th>
+                <th>Styles</th>
             </thead>
             <tbody>
               {{# each musics }}
@@ -17,7 +17,7 @@
                       <td>{{ this.title }}</td>
                       <td>{{ this.url }}</td>
                       <td>{{ this.author.name }}</td>
-                      <td><span>{{#styles}}{{ this.name }}{{/styles}}</span></td>
+                      <td>{{#styles}}<span class="styles">{{ this.name }}</span>{{/styles}}</td>
                       <td><a href="/admin/music/update-music/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
                       <td>
                         <form action="/admin/music/delete-music-action" method="post">

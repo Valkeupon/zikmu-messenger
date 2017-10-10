@@ -22,8 +22,21 @@
                 </select>
             </div>
             <div class="input">
-                <label for="style">Styles</label>
-                <select type="text" id="style" name="style">
+                <label for="style1">Styles</label>
+                <select type="text" id="style1" name="style1">
+                  <option value="0">Aucun</option>
+                  {{# each styles }}
+                    <option value={{ this._id }}>{{ this.title }}</option>
+                  {{/each}}
+                </select>
+                <select type="text" id="style2" name="style2">
+                  <option value="0">Aucun</option>
+                  {{# each styles }}
+                    <option value={{ this._id }}>{{ this.title }}</option>
+                  {{/each}}
+                </select>
+                <select type="text" id="style3" name="style3">
+                  <option value="0">Aucun</option>
                   {{# each styles }}
                     <option value={{ this._id }}>{{ this.title }}</option>
                   {{/each}}

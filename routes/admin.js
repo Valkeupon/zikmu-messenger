@@ -90,13 +90,23 @@ var sess;
   });
   //Action insert musics
   router.post('/music/insert-music', function(req, res, next) {
-    if(!req.body.title || !req.body.url || !req.body.author || !req.body.style){
+    if(!req.body.title || !req.body.url || !req.body.author){
       return;
     }
+    const array = [];
+    const stylesArray = [];
+
+    array.push(req.body.style1, req.body.style2, req.body.style3);
+    array.map(function(elem){
+      if(elem == 0){
+        return;
+      }
+      stylesArray.push(elem);
+    })
+
     var item = {
       title: req.body.title,
       url: req.body.url,
-      styles: [req.body.style],
     };
 
     var tasks = [
@@ -111,12 +121,15 @@ var sess;
            });
        },
        function(callback) {
-           styles.findOne({ _id: req.body.style, archived: false }).then(function(elem, err) {
+           styles.find({ _id: { $in: stylesArray.map(elem => elem) }, archived: false }).then(function(elem, err) {
                if (err) return callback(err);
-               item.styles = {
-                 _id: elem._id,
-                 name: elem.title,
-               }
+               var result = elem.map(style => {
+                 return {
+                   _id: style._id,
+                   name: style.title,
+                 }
+               });
+               item.styles = result;
                callback();
            });
        }
@@ -124,7 +137,7 @@ var sess;
 
     async.parallel(tasks, function(err) {
        if (err) return next(err);
-       console.log("INSERT ----> ", item );
+       console.log("INSERT ----> ", item);
        var data = new musics(item);
        data.save();
        res.redirect('/admin/music');
@@ -275,5 +288,5 @@ var sess;
 
         res.redirect('/admin/styles');
     });
-    
+
   module.exports = router;
