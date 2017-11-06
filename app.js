@@ -68,7 +68,7 @@ https.createServer({
 }, app).listen(443);
 
 // error handlers
-console.log("ENV --->", app.get('env'))¢¢¢¢¢;
+console.log("ENV --->", app.get('env'));
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
