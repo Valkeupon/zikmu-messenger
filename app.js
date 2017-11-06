@@ -22,7 +22,7 @@ const FB_TOKEN = "EAAcJ3Lw2pikBAF5vjHiPpxDtXGoNjplTuStVZCbjqQ2gQa78ZBcgyhq6Q3ZCB
 const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 const routes = require('./routes/index');
-const admin = require('./routes/admin'); 
+const admin = require('./routes/admin');
 
 let app = express();
 
@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bot.middleware());
+//app.use(bot.middleware());
 
 
 //Homepage
@@ -83,8 +83,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-const httpServer = http.createServer(app);
-httpServer.listen(8080);
+http.createServer(bot.middleware()).listen('8080');
 
 https.createServer({
         key: privateKey,
