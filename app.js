@@ -38,6 +38,29 @@ app.engine('hbs', hbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+//BOT MESSENGER
+let bot = new Bot({
+   token: FB_TOKEN,
+   verify: FB_VERIFY
+});
+//LOG ERROR
+bot.on('error', function(err){
+   console.log(err.message)
+});
+
+bot.on('message', (payload, reply) => {
+    let text = payload.message.text
+    reply({
+        text
+    }, (err) => {
+        if (err) {
+            console.log(err.message)
+        }
+
+        console.log(`Echoed back : ${text}`)
+    })
+});
+
 //uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -46,6 +69,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bot.middleware());
 
 
 //Homepage
@@ -59,34 +83,26 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+const httpServer = http.createServer(app);
+httpServer.listen(8080);
+
+https.createServer({
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+}, app).listen(443);
+
+// error handlers
+console.log("ENV --->", app.get('env'));
 // development error handler
 // will print stacktrace
-if (app.get('env') == 'development') {
-  console.log("ENV --->", app.get('env'));
+if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    //BOT MESSENGER
-    let bot = new Bot({
-       token: FB_TOKEN,
-       verify: FB_VERIFY
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
-    //LOG ERROR
-    bot.on('error', function(err){
-       console.log('BOT', err.message)
-    });
-
-    bot.on('message', (payload, reply) => {
-        let text = payload.message.text
-        reply({
-            text
-        }, (err) => {
-            if (err) {
-                console.log(err.message)
-            }
-
-            console.log(`Echoed back : ${text}`)
-        })
-    });
-
   });
 }
 
@@ -101,14 +117,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-const httpServer = http.createServer(app);
-httpServer.listen(8080);
 
-https.createServer({
-        key: privateKey,
-        cert: certificate,
-        ca: ca
-}, app).listen(443);
 
 
 module.exports = app;
