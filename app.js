@@ -11,6 +11,8 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const Bot = require('messenger-bot');
+const request = require('request');
+const config = require('config');
 
 //Certificat SSL
 const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
