@@ -20,16 +20,14 @@ const https = require('https');
 const FB_TOKEN = "EAAcJ3Lw2pikBACtx8ALvuo0MQmSQn81ZAaM9ESQJtlZCcBDXHDF9ZA4BdlANODUsjKLUTRtLXMUchz2T17ihJo7FVUgi8JkV19w72hWMYDUBd7wZCtCqNZCdZBOyl0ZAofZBny5h2p3OZCZAXq8skhBYzgb2bpesbN37wXGyGeGfuKbUUsXatDAfja";
 const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
-http.createServer(function(req, res) {
-  console.log("SERVER HTTP");
-    res.writeHead(301, {"Location": "http://" + req.headers['host'] + req.url});
-    res.end();
-}).listen(80);
-
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
 
 let app = express();
+
+var httpServer = http.createServer(app);
+
+httpServer.listen(8080);
 
 // view engine setup
 app.engine('hbs', hbs({
