@@ -6,12 +6,11 @@
       Update
       <div class="col-lg-12 col-md-12 col-xs-12">
         <form action="/admin/music/update-music-action" method="post">
-          {{# each music }}
+          {{#music }}
             <div class="input">
                 <label for="title">Titre</label>
                 <input type="text" id="title" name="title" value={{ this.title }}>
             </div>
-            {{ log this }}
             <div class="input">
                 <label for="content">Url</label>
                 <input type="text" id="url" name="url" value={{ this.url }}>
@@ -21,12 +20,31 @@
                 <input type="text" id="author" name="author" value={{ this.author.name }}>
             </div>
             <div class="input">
-                <label for="style">Styles</label>
-                <input type="text" id="style" name="style" value={{ this.style }}>
+              <label for="style1">Styles</label>
+              <ul>
+                {{#styles}}
+                  <li>{{ this.name }}</li>
+                {{/styles}}
+              </ul>
+
+              <!-- <select type="text" id="style1" name="style1">
+                <option value="0">Aucun</option>
+                  {{#styles }}
+                    <option value={{ this._id }}>{{ this.title }}</option>
+                  {{/styles}}
+              </select> -->
+              <!-- <select type="text" id="style2" name="style2">
+                <option value="0">Aucun</option>
+                <option value={{ this._id }}>{{ this.name }}</option>
+              </select>
+              <select type="text" id="style3" name="style3">
+                <option value="0">Aucun</option>
+                  <option value={{ this._id }}>{{ this.name }}</option>
+              </select> -->
             </div>
             <input type="hidden" id="_id" name="_id" value={{ this._id }}>
             <button type="submit">Mettre à jour</button>
-          {{/each}}
+          {{/music}}
         </form>
       </div>
     </div>

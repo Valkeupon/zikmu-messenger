@@ -146,15 +146,44 @@ var sess;
   //display update music page
   router.get('/music/update-music/:_id', function(req, res, next) {
     var id = req.params._id;
+    var data = {};
 
-    musics.find({ _id: id })
-        .then(function(doc) {
-          if(!doc || doc.length <= 0){
-            res.redirect('/admin/music');
-          }else{
-            res.render('admin/music-update',  { music: doc });
-          }
-      });
+    var tasks = [
+       function(callback) {
+           musics.findOne({ _id: id, archived: false }).then(function(elem, err) {
+               if (err) return callback(err);
+               data.musics = elem;
+               callback();
+           });
+       },
+       function(callback) {
+           groupes.find({ archived: false }).then(function(elem, err) {
+               if (err) return callback(err);
+               data.groupes = elem;
+               callback();
+           });
+       },
+       function(callback) {
+           styles.find({ archived: false }).then(function(elem, err) {
+               if (err) return callback(err)
+               data.styles = elem;
+               callback();
+           });
+       }
+     ];
+     async.parallel(tasks, function(err) {
+        if (err) return next(err);
+        console.log("DISPLAY UPDATE ---> ", data);
+        if(!data.musics){
+          res.redirect('/admin/music');
+        }else{
+          res.render('admin/music-update', {
+            music: data.musics,
+            groupes: data.groupes,
+            AllStyles: data.styles
+          });
+        }
+    });
   });
   //action update music
   router.post('/music/update-music-action', function(req, res, next) {
