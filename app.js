@@ -59,20 +59,10 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-const httpServer = http.createServer(app);
-httpServer.listen(8080);
-
-https.createServer({
-        key: privateKey,
-        cert: certificate,
-        ca: ca
-}, app).listen(443);
-
-// error handlers
-console.log("ENV --->", app.get('env'));
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (app.get('env') == 'development') {
+  console.log("ENV --->", app.get('env'));
   app.use(function(err, req, res, next) {
     //BOT MESSENGER
     let bot = new Bot({
@@ -111,6 +101,14 @@ app.use(function(err, req, res, next) {
 });
 
 
+const httpServer = http.createServer(app);
+httpServer.listen(8080);
+
+https.createServer({
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+}, app).listen(443);
 
 
 module.exports = app;
