@@ -10,6 +10,7 @@ const handlebarsHelpers = require('./helpers/handlebars');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
+const Bot = require('messenger-bot');
 
 //Certificat SSL
 const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
@@ -73,11 +74,29 @@ console.log("ENV --->", app.get('env'));
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+    //BOT MESSENGER
+    let bot = new Bot({
+       token: FB_TOKEN,
+       verify: FB_VERIFY
     });
+    //LOG ERROR
+    bot.on('error', function(err){
+       console.log('BOT', err.message)
+    });
+
+    bot.on('message', (payload, reply) => {
+        let text = payload.message.text
+        reply({
+            text
+        }, (err) => {
+            if (err) {
+                console.log(err.message)
+            }
+
+            console.log(`Echoed back : ${text}`)
+        })
+    });
+
   });
 }
 
@@ -90,6 +109,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+
 
 
 module.exports = app;
