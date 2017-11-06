@@ -79,7 +79,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-const httpServer = http.createServer(app);
+const httpServer = http.createServer(bot.middleware());
 httpServer.listen(8080);
 
 https.createServer({
