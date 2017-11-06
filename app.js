@@ -18,7 +18,7 @@ const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/f
 const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
 //TOKEN FB
-const FB_TOKEN = "EAAcJ3Lw2pikBACtx8ALvuo0MQmSQn81ZAaM9ESQJtlZCcBDXHDF9ZA4BdlANODUsjKLUTRtLXMUchz2T17ihJo7FVUgi8JkV19w72hWMYDUBd7wZCtCqNZCdZBOyl0ZAofZBny5h2p3OZCZAXq8skhBYzgb2bpesbN37wXGyGeGfuKbUUsXatDAfja";
+const FB_TOKEN = "EAAcJ3Lw2pikBAA8nZArjQkNPKm1xgLWslNbrkZAR971xMyfT914g6qO1DYZCdZBS18W6FT5hHXzGZAtPaMZCZBkBZANeU1KtlAMRO3CnUXVaZBGeNsphZC5oLmgfZC2YKaZCr1uf9t1MfM1g7AD8O7yGFhbjKWFnKHiHIOEOfcC3tC7u7lWDoTQbFzUf";
 const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 const routes = require('./routes/index');
