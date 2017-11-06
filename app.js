@@ -18,7 +18,7 @@ const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/f
 const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
 //TOKEN FB
-const FB_TOKEN = "EAAcJ3Lw2pikBAGOuSXzIq4NlyngGLPa5qrc1XA8AxOjmyX1VtBw9wTFTHzFVoZBURnXhaBQc2rR5lhJayfRykILmbjcg5bBKWbFNbwFxVGbP2VQrlum87ZB4qRVC4TTL2TAK46DJbFNUeOoLMpDZBFJGqcK0ZCdycyxSOFu5PU1W8LVCDkS7";
+const FB_TOKEN = "EAAcJ3Lw2pikBAF5vjHiPpxDtXGoNjplTuStVZCbjqQ2gQa78ZBcgyhq6Q3ZCB8VSvv4NMR8b8XIgTj8uCUJ2TzjxcvZACUf4lEen2PoKG4QPIxbJqB8aAybPEfS06V6LWUJ43ZATZCwEV0HOzGJ0E8VHAqn2lDrhXHYxEGNOGZAZBAZDZD";
 const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 const routes = require('./routes/index');
@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(bot.middleware());
+app.use(bot.middleware());
 
 
 //Homepage
@@ -90,7 +90,7 @@ https.createServer({
         key: privateKey,
         cert: certificate,
         ca: ca
-}, bot.middleware()).listen(443);
+}, app).listen(443);
 
 // error handlers
 console.log("ENV --->", app.get('env'));
