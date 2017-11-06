@@ -45,7 +45,7 @@ let bot = new Bot({
 });
 //LOG ERROR
 bot.on('error', function(err){
-   console.log(err.message)
+   console.log('BOT ERROR', err.message)
 });
 
 bot.on('message', (payload, reply) => {
@@ -54,7 +54,7 @@ bot.on('message', (payload, reply) => {
         text
     }, (err) => {
         if (err) {
-            console.log(err.message)
+            console.log('BOT ERR -->'err.message)
         }
 
         console.log(`Echoed back : ${text}`)
