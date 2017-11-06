@@ -1,12 +1,24 @@
-var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var hbs = require('express-handlebars');
-var handlebarsHelpers = require('./helpers/handlebars');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const hbs = require('express-handlebars');
+const handlebarsHelpers = require('./helpers/handlebars');
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+
+//Certificat SSL
+//const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
+//const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
+//const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
+
+//TOKEN FB
+const FB_TOKEN = "EAAcJ3Lw2pikBACtx8ALvuo0MQmSQn81ZAaM9ESQJtlZCcBDXHDF9ZA4BdlANODUsjKLUTRtLXMUchz2T17ihJo7FVUgi8JkV19w72hWMYDUBd7wZCtCqNZCdZBOyl0ZAofZBny5h2p3OZCZAXq8skhBYzgb2bpesbN37wXGyGeGfuKbUUsXatDAfja";
+const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 var routes = require('./routes/index');
 var admin = require('./routes/admin');
@@ -71,5 +83,15 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// https.createServer({
+//         key: privateKey,
+//         cert: certificate,
+//         ca: ca
+// }, app).listen(443);
+
+http.createServer(function(req, res) {
+    res.writeHead(301, {"Location": "http://" + req.headers['host'] + req.url});
+    res.end();
+}).listen(80);
 
 module.exports = app;
