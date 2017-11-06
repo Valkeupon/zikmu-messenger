@@ -60,7 +60,7 @@ app.use(function(req, res, next) {
 
 var httpServer = http.createServer(app);
 
-httpServer.listen(8000);
+httpServer.listen(443);
 
 // error handlers
 console.log("ENV --->", app.get('env'));
