@@ -43,18 +43,6 @@ let bot = new Bot({
    token: FB_TOKEN,
    verify: FB_VERIFY
 });
-
-app.get('/webhook', function(req, res) {
-  if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === FB_VERIFY) {
-    console.log("Validating webhook");
-    res.status(200).send(req.query['hub.challenge']);
-  } else {
-    console.error("Failed validation. Make sure the validation tokens match.");
-    res.sendStatus(403);
-  }
-});
-
 //LOG ERROR
 bot.on('error', function(err){
    console.log('BOT ERROR', err.message)
@@ -81,7 +69,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bot.middleware());
+//app.use(bot.middleware());
 
 
 //Homepage
@@ -102,7 +90,7 @@ https.createServer({
         key: privateKey,
         cert: certificate,
         ca: ca
-}, app).listen(443);
+}, bot.middleware()).listen(443);
 
 // error handlers
 console.log("ENV --->", app.get('env'));
