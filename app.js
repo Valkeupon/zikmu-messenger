@@ -22,7 +22,7 @@ const FB_TOKEN = "EAAcJ3Lw2pikBAF5vjHiPpxDtXGoNjplTuStVZCbjqQ2gQa78ZBcgyhq6Q3ZCB
 const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 const routes = require('./routes/index');
-const admin = require('./routes/admin');
+const admin = require('./routes/admin'); 
 
 let app = express();
 
