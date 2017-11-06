@@ -20,10 +20,16 @@ const https = require('https');
 const FB_TOKEN = "EAAcJ3Lw2pikBACtx8ALvuo0MQmSQn81ZAaM9ESQJtlZCcBDXHDF9ZA4BdlANODUsjKLUTRtLXMUchz2T17ihJo7FVUgi8JkV19w72hWMYDUBd7wZCtCqNZCdZBOyl0ZAofZBny5h2p3OZCZAXq8skhBYzgb2bpesbN37wXGyGeGfuKbUUsXatDAfja";
 const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
-var routes = require('./routes/index');
-var admin = require('./routes/admin');
+http.createServer(function(req, res) {
+  console.log("SERVER HTTP");
+    res.writeHead(301, {"Location": "http://" + req.headers['host'] + req.url});
+    res.end();
+}).listen(80);
 
-var app = express();
+const routes = require('./routes/index');
+const admin = require('./routes/admin');
+
+let app = express();
 
 // view engine setup
 app.engine('hbs', hbs({
@@ -88,10 +94,5 @@ app.use(function(err, req, res, next) {
 //         cert: certificate,
 //         ca: ca
 // }, app).listen(443);
-
-http.createServer(function(req, res) {
-    res.writeHead(301, {"Location": "http://" + req.headers['host'] + req.url});
-    res.end();
-}).listen(80);
 
 module.exports = app;
