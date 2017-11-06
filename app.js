@@ -14,8 +14,7 @@ const https = require('https');
 //Certificat SSL
 const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
 const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
-const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem"); 
-
+const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
 //TOKEN FB
 const FB_TOKEN = "EAAcJ3Lw2pikBACtx8ALvuo0MQmSQn81ZAaM9ESQJtlZCcBDXHDF9ZA4BdlANODUsjKLUTRtLXMUchz2T17ihJo7FVUgi8JkV19w72hWMYDUBd7wZCtCqNZCdZBOyl0ZAofZBny5h2p3OZCZAXq8skhBYzgb2bpesbN37wXGyGeGfuKbUUsXatDAfja";
@@ -69,7 +68,7 @@ https.createServer({
 }, app).listen(443);
 
 // error handlers
-console.log("ENV --->", app.get('env'));
+console.log("ENV --->", app.get('env'))¢¢¢¢¢;
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -92,10 +91,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// https.createServer({
-//         key: privateKey,
-//         cert: certificate,
-//         ca: ca
-// }, app).listen(443);
 
 module.exports = app;
