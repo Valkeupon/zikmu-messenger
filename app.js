@@ -17,10 +17,6 @@ const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/p
 const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
 const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
-//TOKEN FB
-const FB_TOKEN = "EAAcJ3Lw2pikBAF5vjHiPpxDtXGoNjplTuStVZCbjqQ2gQa78ZBcgyhq6Q3ZCB8VSvv4NMR8b8XIgTj8uCUJ2TzjxcvZACUf4lEen2PoKG4QPIxbJqB8aAybPEfS06V6LWUJ43ZATZCwEV0HOzGJ0E8VHAqn2lDrhXHYxEGNOGZAZBAZDZD";
-const FB_VERIFY = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
-
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
 
@@ -40,8 +36,8 @@ app.set('view engine', 'hbs');
 
 //BOT MESSENGER
 let bot = new Bot({
-   token: FB_TOKEN,
-   verify: FB_VERIFY
+   token: "EAAcJ3Lw2pikBAF5vjHiPpxDtXGoNjplTuStVZCbjqQ2gQa78ZBcgyhq6Q3ZCB8VSvv4NMR8b8XIgTj8uCUJ2TzjxcvZACUf4lEen2PoKG4QPIxbJqB8aAybPEfS06V6LWUJ43ZATZCwEV0HOzGJ0E8VHAqn2lDrhXHYxEGNOGZAZBAZDZD",
+   verify: "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO"
 });
 //LOG ERROR
 bot.on('error', function(err){
@@ -69,7 +65,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(bot.middleware());
+app.use(bot.middleware());
 
 
 //Homepage
@@ -83,7 +79,8 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-http.createServer(bot.middleware()).listen('8080');
+const httpServer = http.createServer(app);
+httpServer.listen(8080);
 
 https.createServer({
         key: privateKey,
