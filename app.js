@@ -34,83 +34,102 @@ app.engine('hbs', hbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+app.set('port', process.env.PORT || 5555);
+app.use(bodyParser.json());
+
+const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
+
+app.get('/webhook', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' &&
+      req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);
+  }
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Bot is running on port ', app.get('port'));
+});
+
 //BOT MESSENGER
-let bot = new Bot({
-   token: "EAATNZAO4UwDIBAAgvpZAbJwehQMJHPoZAL1PcUme00ct4Me0nbEuRaFdBCYUyfpQQQdgpWDjIsU1xzIRwMB8Xl4vKg91WFuqXRCsZCr94D8NdmjlS6Q6AOFLMvVpvq90xDLZAtyJZAONz47KCIhs7iZAZBieftZAUD83xEBbDYdrMtQZDZD",
-   verify: "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO"
-});
-//LOG ERROR
-bot.on('error', function(err){
-   console.log('BOT ERROR', err.message)
-});
-
-bot.on('message', (payload, reply) => {
-    let text = payload.message.text
-    reply({
-        text
-    }, (err) => {
-        if (err) {
-            console.log('BOT ERR -->', err.message)
-        }
-
-        console.log(`Echoed back : ${text}`)
-    })
-});
+// let bot = new Bot({
+//    token: "EAATNZAO4UwDIBAAgvpZAbJwehQMJHPoZAL1PcUme00ct4Me0nbEuRaFdBCYUyfpQQQdgpWDjIsU1xzIRwMB8Xl4vKg91WFuqXRCsZCr94D8NdmjlS6Q6AOFLMvVpvq90xDLZAtyJZAONz47KCIhs7iZAZBieftZAUD83xEBbDYdrMtQZDZD",
+//    verify: "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO"
+// });
+// //LOG ERROR
+// bot.on('error', function(err){
+//    console.log('BOT ERROR', err.message)
+// });
+//
+// bot.on('message', (payload, reply) => {
+//     let text = payload.message.text
+//     reply({
+//         text
+//     }, (err) => {
+//         if (err) {
+//             console.log('BOT ERR -->', err.message)
+//         }
+//
+//         console.log(`Echoed back : ${text}`)
+//     })
+// });
 
 //uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(session({secret: 'ssshhhhh'}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bot.middleware());
-
-
-//Homepage
-app.use('/', routes);
-app.use('/admin', admin);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-const httpServer = http.createServer(bot.middleware());
-httpServer.listen(8080);
-
-https.createServer({
-        key: privateKey,
-        cert: certificate,
-        ca: ca
-}, app).listen(443);
-
-// error handlers
-console.log("ENV --->", app.get('env'));
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
+// app.use(logger('dev'));
+// app.use(session({secret: 'ssshhhhh'}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(bot.middleware());
+//
+//
+// //Homepage
+// app.use('/', routes);
+// app.use('/admin', admin);
+//
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+//
+// const httpServer = http.createServer(bot.middleware());
+// httpServer.listen(8080);
+//
+// https.createServer({
+//         key: privateKey,
+//         cert: certificate,
+//         ca: ca
+// }, app).listen(443);
+//
+// // error handlers
+// console.log("ENV --->", app.get('env'));
+// // development error handler
+// // will print stacktrace
+// if (app.get('env') === 'development') {
+//   app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//       message: err.message,
+//       error: err
+//     });
+//   });
+// }
+//
+// // production error handler
+// // no stacktraces leaked to user
+// app.use(function(err, req, res, next) {
+//   res.status(err.status || 500);
+//   res.render('error', {
+//     message: err.message,
+//     error: {}
+//   });
+// });
 
 
 
