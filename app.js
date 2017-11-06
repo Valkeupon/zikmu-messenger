@@ -54,7 +54,7 @@ bot.on('message', (payload, reply) => {
         text
     }, (err) => {
         if (err) {
-            console.log('BOT ERR -->'err.message)
+            console.log('BOT ERR -->', err.message)
         }
 
         console.log(`Echoed back : ${text}`)
