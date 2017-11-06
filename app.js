@@ -25,10 +25,6 @@ const admin = require('./routes/admin');
 
 let app = express();
 
-var httpServer = http.createServer(app);
-
-httpServer.listen(8080);
-
 // view engine setup
 app.engine('hbs', hbs({
   extname: 'hbs',
@@ -62,6 +58,9 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+var httpServer = http.createServer(app);
+
+httpServer.listen(8080);
 
 // error handlers
 console.log("ENV --->", app.get('env'));
