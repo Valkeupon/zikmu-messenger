@@ -74,8 +74,8 @@ function sendTextMessage(sender, text) {
         method: 'POST',
         json: {
             recipient: {id:sender},
-            sender_action: typing_on,
             message: data,
+            sender_action: typing_on
         }
     }, function(error, response, body) {
         if (error) {
