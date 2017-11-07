@@ -56,9 +56,10 @@ app.post('/webhook/', function (req, res) {
             musics.find({ archived: false }).then(function(elem, err) {
                 if (err) return callback(err);
                 console.log(elem);
+                elem.map( res => {
+                  sendTextMessage(sender, "J'ai recu : " + res.title)
+                });
                 //let text = message_event.message.text
-                let data = elem.title;
-                sendTextMessage(sender, "J'ai recu : " + data)
             });
         }
     }
