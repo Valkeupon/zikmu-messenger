@@ -3,34 +3,36 @@ const config = require('config');
 const bodyParser = require('body-parser');
 const express = require('express');
 
+const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
+const FB_TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
+let app = express();
+
 module.exports = {
-  let app = express();
-  const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
-  const FB_TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
-  app.get('/webhook', function(req, res) {
-    if (req.query['hub.mode'] === 'subscribe' &&
-        req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-      res.status(200).send(req.query['hub.challenge']);
-    } else {
-      console.error("Failed validation. Make sure the validation tokens match.");
-      res.sendStatus(403);
-    }
-  });
-
-  app.post('/webhook/', function (req, res) {
-      let message_events = req.body.entry[0].messaging
-      for (message_event of message_events) {
-          let sender = message_event.sender.id
-          if (message_event.message && message_event.message.text) {
-              let text = message_event.message.text
-              sendTextMessage(sender, "J'ai recu : " + text.substring(0, 200))
-          }
+  initBot: () => {
+    app.get('/webhook', function(req, res) {
+      if (req.query['hub.mode'] === 'subscribe' &&
+          req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+        res.status(200).send(req.query['hub.challenge']);
+      } else {
+        console.error("Failed validation. Make sure the validation tokens match.");
+        res.sendStatus(403);
       }
-      res.sendStatus(200)
-  });
+    });
 
-  function sendTextMessage(sender, text) {
+    app.post('/webhook/', function (req, res) {
+        let message_events = req.body.entry[0].messaging
+        for (message_event of message_events) {
+            let sender = message_event.sender.id
+            if (message_event.message && message_event.message.text) {
+                let text = message_event.message.text
+                sendTextMessage(sender, "J'ai recu : " + text.substring(0, 200))
+            }
+        }
+        res.sendStatus(200)
+    });
+  },
+  sendTextMessage: (sender, text) => {
       let data = { text:text }
       let access_token = FB_TOKEN;
       request({

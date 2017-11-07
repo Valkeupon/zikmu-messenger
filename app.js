@@ -8,18 +8,11 @@ const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const handlebarsHelpers = require('./helpers/handlebars');
 const fs = require('fs');
-const http = require('http');
-const https = require('https');
 //const Bot = require('messenger-bot');
 
-//Certificat SSL
-const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
-const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
-const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
-const bot = require('./bot');
 
 let app = express();
 
@@ -50,8 +43,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/admin', admin);
 
-//BOT messenger
-//app.use('/', bot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,7 +55,7 @@ app.use(function(req, res, next) {
 console.log("ENV --->", app.get('env'));
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (app.get('env') !== 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -72,6 +63,7 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
+
 }
 
 // production error handler
@@ -84,12 +76,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-https.createServer({
-        key: privateKey,
-        cert: certificate,
-        ca: ca
-}, app).listen(443);
 
 
 module.exports = app;

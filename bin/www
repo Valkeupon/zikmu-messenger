@@ -4,22 +4,40 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('05-express-first-app:server');
-var http = require('http');
+let app = require('../app');
+const bot = require('../bot');
+const debug = require('debug')('05-express-first-app:server');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '8000');
+console.log(port);
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
+if(port !== 8000){
+  //INITIALIZE BOT MESSENGER
+  bot.initBot();
+  
+  const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
+  const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
+  const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
-var server = http.createServer(app);
+  let server = https.createServer({
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+  }, app);
+}
+ //Certificat SSL
+server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
