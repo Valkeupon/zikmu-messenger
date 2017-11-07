@@ -13,7 +13,7 @@ const fs = require('fs');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort("443");
+var port = normalizePort(process.env.PORT || '8000');
 app.set('port', port);
 
 let server = null;
@@ -22,18 +22,19 @@ let server = null;
  */
 
   //INITIALIZE BOT MESSENGER
-  const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
-  const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
-  const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
+  // const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
+  // const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
+  // const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
+  //
+  // server = https.createServer({
+  //   key: privateKey,
+  //   cert: certificate,
+  //   ca: ca
+  // }, app);
 
-  server = https.createServer({
-    key: privateKey,
-    cert: certificate,
-    ca: ca
-  }, app);
 
 
-
+  server = http.createServer(app);
 
 
 
