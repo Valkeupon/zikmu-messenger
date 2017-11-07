@@ -13,6 +13,11 @@ const request = require('request');
 const config = require('config');
 //const Bot = require('messenger-bot');
 
+const routes = require('./routes/index');
+const admin = require('./routes/admin');
+
+let app = express();
+
 const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 app.get('/webhook', function(req, res) {
@@ -59,11 +64,6 @@ sendTextMessage: (sender, text) => {
     })
 };
 
-
-const routes = require('./routes/index');
-const admin = require('./routes/admin');
-
-let app = express();
 
 // view engine setup
 app.engine('hbs', hbs({
