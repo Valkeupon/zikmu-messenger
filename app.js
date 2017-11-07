@@ -13,6 +13,7 @@ const https = require('https');
 const Bot = require('messenger-bot');
 const request = require('request');
 const config = require('config');
+const musics = require('../collections/musiques');
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
@@ -50,10 +51,15 @@ app.get('/webhook', function(req, res) {
 app.post('/webhook/', function (req, res) {
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
-        let sender = message_event.sender.id
+        let sender = message_event.sender.id;
         if (message_event.message && message_event.message.text) {
-            let text = message_event.message.text
-            sendTextMessage(sender, "J'ai recu : " + text.substring(0, 200))
+            musics.find({ archived: false }).then(function(elem, err) {
+                if (err) return callback(err);
+                console.log(elem);
+                //let text = message_event.message.text
+                let data = elem.title;
+                sendTextMessage(sender, "J'ai recu : " + data)
+            });
         }
     }
     res.sendStatus(200)
