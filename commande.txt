@@ -1,2 +1,6 @@
 Lancer mongo via la commande cd
 npm start
+
+
+*** Pour le serveur ***
+forever start -c npm start
