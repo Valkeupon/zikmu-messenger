@@ -13,7 +13,7 @@ const https = require('https');
 const Bot = require('messenger-bot');
 const request = require('request');
 const config = require('config');
-const musics = require('../collections/musiques');
+const musics = require('./collections/musiques');
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
