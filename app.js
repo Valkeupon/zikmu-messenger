@@ -55,7 +55,12 @@ app.post('/webhook/', function (req, res) {
         if (message_event.message && message_event.message.text) {
             musics.find({ archived: false }).then(function(elem, err) {
                 if (err) return callback(err);
-                elem.map(res => {
+
+                if(!elem || elem.length <= 0){
+                  return sendTextMessage(sender, "Aucune chanson trouvé");
+                }
+
+                elem.map( res => {
                   sendTextMessage(sender, "Titre chanson : " + res.title)
                 });
                 //let text = message_event.message.text
@@ -75,7 +80,6 @@ function sendTextMessage(sender, text) {
         json: {
             recipient: {id:sender},
             message: data,
-            sender_action: typing_on
         }
     }, function(error, response, body) {
         if (error) {
