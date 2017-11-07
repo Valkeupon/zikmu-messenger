@@ -52,10 +52,6 @@ app.get('/webhook', function(req, res) {
   }
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Bot is running on port ', app.get('port'));
-});
-
 app.post('/webhook/', function (req, res) {
   console.log('SMMSMS ---> ', req);
     let message_events = req.body.entry[0].messaging
@@ -67,7 +63,31 @@ app.post('/webhook/', function (req, res) {
         }
     }
     res.sendStatus(200)
-})
+});
+
+function sendTextMessage(sender, text) {
+    let data = { text:text }
+    let access_token = "EAATNZAO4UwDIBAKOsUqLOhZCWP7R4wRsZB5H5XGJ4OCO7AciEbiZAwDR0CU8hDx4XQduZAZAYTE8ihhwOjhCvgKS7nH2LlKKoJPkZBl398BNANuEqIKaViaDKiHa09kvOZCrZBszEzfxjkegPKOYZAwPNbZCgNUxH52yLHCQZAhUseB0UAZDZD";
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: access_token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: data,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
+
+app.listen(app.get('port'), function() {
+  console.log('Bot is running on port ', app.get('port'));
+});
 //
 // function sendTextMessage(sender, text) {
 //     let data = { text:text }
