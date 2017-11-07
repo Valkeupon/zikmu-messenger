@@ -8,7 +8,6 @@ const FB_TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaO
 let app = express();
 
 module.exports = {
-
   initBot: () => {
     app.get('/webhook', function(req, res) {
       if (req.query['hub.mode'] === 'subscribe' &&

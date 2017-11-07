@@ -16,28 +16,31 @@ const fs = require('fs');
  */
 
 var port = normalizePort(process.env.PORT || '8000');
-console.log(port);
 app.set('port', port);
 
+let server = null;
 /**
  * Create HTTP server.
  */
-if(port !== 8000){
+if(app.get('env') != 'development'){
   //INITIALIZE BOT MESSENGER
   bot.initBot();
-  
+
   const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
   const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
   const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
-  let server = https.createServer({
-        key: privateKey,
-        cert: certificate,
-        ca: ca
+  server = https.createServer({
+    key: privateKey,
+    cert: certificate,
+    ca: ca
   }, app);
+
+}else{
+
+  server = http.createServer(app);
+
 }
- //Certificat SSL
-server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
