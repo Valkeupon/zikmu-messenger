@@ -10,7 +10,7 @@ const handlebarsHelpers = require('./helpers/handlebars');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const Bot = require('messenger-bot');
+//const Bot = require('messenger-bot');
 
 //Certificat SSL
 const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
@@ -19,6 +19,7 @@ const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
+const bot = require('./bot');
 
 let app = express();
 
@@ -50,7 +51,7 @@ app.use('/', routes);
 app.use('/admin', admin);
 
 //BOT messenger
-app.use(express.static('bot.js'));
+app.use('/', bot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
