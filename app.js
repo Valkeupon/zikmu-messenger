@@ -8,22 +8,43 @@ const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const handlebarsHelpers = require('./helpers/handlebars');
 const fs = require('fs');
-//const bot = require('./bot');
+const http = require('http');
+const https = require('https');
+const Bot = require('messenger-bot');
 const request = require('request');
 const config = require('config');
-//const Bot = require('messenger-bot');
+
+//Certificat SSL
+const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
+const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
+const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
 
 let app = express();
 
+// view engine setup
+app.engine('hbs', hbs({
+  extname: 'hbs',
+  defaultLayout: 'layout',
+  layoutsDir: __dirname + '/views/layouts/',
+  partialsDir: __dirname + '/views/partials/',
+  helpers: handlebarsHelpers
+}));
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+app.set('port', process.env.PORT || 5555);
+app.use(bodyParser.json());
+
 const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
 app.get('/webhook', function(req, res) {
-  console.log(req.query);
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+    console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
     console.error("Failed validation. Make sure the validation tokens match.");
@@ -32,6 +53,7 @@ app.get('/webhook', function(req, res) {
 });
 
 app.post('/webhook/', function (req, res) {
+  console.log('SMMSMS ---> ', req);
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id
@@ -43,10 +65,9 @@ app.post('/webhook/', function (req, res) {
     res.sendStatus(200)
 });
 
-sendTextMessage: (sender, text) => {
-  console.log('TEXT', text);
+function sendTextMessage(sender, text) {
     let data = { text:text }
-    let access_token = "EAAXkoGyQMgUBAEnsq7D3gZAqwQvodDZARJVOQv1ZBk5SIBwABy0KMpiQY2TCu9zJQyVfOZB6zjxZCT8vlVzZCBPwI2ZASkLpLVjRU4KDCcHEBUthWRZAZAvM9IOqPH78RgjKzysyh3PhsCrR4Yvaab8IhRDfjTCoVqEjbxQCPaRlG2AZDZD";
+    let access_token = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: access_token},
@@ -62,22 +83,7 @@ sendTextMessage: (sender, text) => {
             console.log('Error: ', response.body.error)
         }
     })
-};
-
-
-// view engine setup
-app.engine('hbs', hbs({
-  extname: 'hbs',
-  defaultLayout: 'layout',
-  layoutsDir: __dirname + '/views/layouts/',
-  partialsDir: __dirname + '/views/partials/',
-  helpers: handlebarsHelpers
-}));
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
-app.use(bodyParser.json());
+}
 
 //uncomment after placing your favicon in /public
 app.use(logger('dev'));
@@ -102,7 +108,7 @@ app.use(function(req, res, next) {
 console.log("ENV --->", app.get('env'));
 // development error handler
 // will print stacktrace
-if (app.get('env') !== 'development') {
+if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -110,7 +116,6 @@ if (app.get('env') !== 'development') {
       error: err
     });
   });
-
 }
 
 // production error handler
@@ -123,6 +128,12 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+https.createServer({
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+}, app).listen(443);
 
 
 module.exports = app;
