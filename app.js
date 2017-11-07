@@ -14,11 +14,6 @@ const Bot = require('messenger-bot');
 const request = require('request');
 const config = require('config');
 
-//Certificat SSL
-const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
-const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
-const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
-
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
 
@@ -53,7 +48,6 @@ app.get('/webhook', function(req, res) {
 });
 
 app.post('/webhook/', function (req, res) {
-  console.log('SMMSMS ---> ', req);
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id
@@ -127,13 +121,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-
-https.createServer({
-        key: privateKey,
-        cert: certificate,
-        ca: ca
-}, app).listen(443);
 
 
 module.exports = app;
