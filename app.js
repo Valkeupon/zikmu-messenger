@@ -45,8 +45,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/admin', admin);
 
-const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
-
+const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0v";
+//"8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO"
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
