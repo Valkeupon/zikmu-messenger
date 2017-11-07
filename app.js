@@ -52,6 +52,7 @@ app.post('/webhook/', function (req, res) {
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id;
+         typingBubble(sender);
         if (message_event.message && message_event.message.text) {
             musics.find({ archived: false }).then(function(elem, err) {
                 if (err) return callback(err);
@@ -89,6 +90,23 @@ function sendTextMessage(sender, text) {
         }
     })
 }
+
+function typingBubble(sender, cb){
+  const opts = {
+    form: {
+      recipient: {
+        id: sender,
+      },
+      sender_action: "typing_on"
+    },
+  };
+
+  fbReq(opts, (err, resp, data) => {
+    if (cb) {
+      cb(err || data.error && data.error.message, data);
+    }
+  });
+};
 
 //uncomment after placing your favicon in /public
 app.use(logger('dev'));
