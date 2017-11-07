@@ -2,12 +2,12 @@ const request = require('request');
 const config = require('config');
 const express = require('express');
 const fs = require('fs');
+let router = express.Router();
 const bodyParser = require('body-parser');
 
-let app = express();
 const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
 
-app.get('/webhook', function(req, res) {
+router.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
     console.log("Validating webhook");
@@ -18,7 +18,7 @@ app.get('/webhook', function(req, res) {
   }
 });
 
-app.post('/webhook/', function (req, res) {
+router.post('/webhook/', function (req, res) {
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id
