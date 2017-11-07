@@ -10,7 +10,6 @@ var sess;
   //display login page
   router.get('/', function(req, res, next) {
     sess = req.session;
-    console.log("SESSION ---> ", sess);
     //check if user is login
     if(sess.email) {
       res.render('admin/main');
@@ -76,7 +75,6 @@ var sess;
        ];
        async.parallel(tasks, function(err) {
           if (err) return next(err);
-          console.log("DISPLAY ---> ", data);
           res.render('admin/music', {
             items: data.musics,
             groupes: data.groupes,
@@ -173,7 +171,6 @@ var sess;
      ];
      async.parallel(tasks, function(err) {
         if (err) return next(err);
-        console.log("DISPLAY UPDATE ---> ", data);
         if(!data.musics){
           res.redirect('/admin/music');
         }else{
