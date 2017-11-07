@@ -11,7 +11,6 @@ const fs = require('fs');
 //const bot = require('./bot');
 const request = require('request');
 const config = require('config');
-const bodyParser = require('body-parser');
 //const Bot = require('messenger-bot');
 
 
