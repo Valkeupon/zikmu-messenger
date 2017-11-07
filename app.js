@@ -85,9 +85,15 @@ function sendTextMessage(sender, text) {
     })
 }
 
-app.listen(app.get('port'), function() {
-  console.log('Bot is running on port ', app.get('port'));
-});
+// app.listen(app.get('port'), function() {
+//   console.log('Bot is running on port ', app.get('port'));
+// });
+
+https.createServer({
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+}, app).listen(443);
 //
 // function sendTextMessage(sender, text) {
 //     let data = { text:text }
