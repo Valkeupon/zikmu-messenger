@@ -51,7 +51,7 @@ app.use('/', routes);
 app.use('/admin', admin);
 
 //BOT messenger
-app.use('/', bot);
+//app.use('/', bot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
