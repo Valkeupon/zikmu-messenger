@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const handlebarsHelpers = require('./helpers/handlebars');
 const fs = require('fs');
+const bot = require('./bot');
 //const Bot = require('messenger-bot');
 
 
@@ -41,7 +42,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Homepage
 app.use('/', routes);
 app.use('/admin', admin);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -22,7 +22,6 @@ let server = null;
  */
 if(app.get('env') != 'development'){
   //INITIALIZE BOT MESSENGER
-  const bot = require('../bot');
   const privateKey  = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/privkey1.pem");
   const certificate = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/fullchain1.pem");
   const ca = fs.readFileSync("/etc/letsencrypt/archive/api.zikmu-app.fr/chain1.pem");
