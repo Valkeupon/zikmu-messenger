@@ -50,34 +50,22 @@ app.get('/webhook', function(req, res) {
 });
 
 app.post('/webhook/', function (req, res) {
-    const data = [];
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id;
         if (message_event.message && message_event.message.text) {
-          var tasks = [
-             function(callback) {
-               musics.find({ archived: false }).then(function(elem, err) {
-                   if (err) return callback(err);
+             musics.aggregate({ $sample: { size: 1 } }).then(function(elem, err) {
+                 if (err) return callback(err);
 
-                   if(!elem || elem.length <= 0){
-                     return sendTextMessage(sender, "Aucune chanson trouvé");
-                   }
-                   if(callback){
-                    callback();
-                   }
-                   elem.map( res => {
-                     data.push(res);
-                   });
-               });
-             }
-           ];
-           async.parallel(tasks, function(err) {
-              if (err) return next(err);
-              console.log("--->",data);
-              sendTextMessage(sender, "Titre chanson : " + data[0].title);
-          });
-          sendWaitWrite(sender);
+                 console.log(elem);
+                //  if(!elem || elem.length <= 0){
+                //    return sendTextMessage(sender, "Aucune chanson trouvé");
+                //  }
+
+                //  elem.map( res => {
+                //    sendTextMessage(sender, res.title);
+                //  });
+             });
         }
     }
     res.sendStatus(200)
