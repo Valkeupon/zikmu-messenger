@@ -36,6 +36,7 @@ app.set('port', process.env.PORT || 5555);
 app.use(bodyParser.json());
 
 const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
+const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
@@ -72,7 +73,7 @@ app.post('/webhook/', function (req, res) {
 
 function sendTextMessage(sender, text) {
     let data = { text:text }
-    let access_token = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
+    let access_token = TOKEN;
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: access_token},
@@ -91,7 +92,7 @@ function sendTextMessage(sender, text) {
 }
 
 function sendWaitWrite(sender) {
-    let access_token = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
+    let access_token = TOKEN;
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: access_token},
