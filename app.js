@@ -59,7 +59,7 @@ app.post('/webhook/', function (req, res) {
              function(callback) {
                musics.find({ archived: false }).then(function(elem, err) {
                    if (err) return callback(err);
-                   console.log(elem);
+
                    if(!elem || elem.length <= 0){
                      return sendTextMessage(sender, "Aucune chanson trouvé");
                    }
@@ -68,12 +68,13 @@ app.post('/webhook/', function (req, res) {
                    }
                    elem.map( res => {
                      data = res.title;
-                   });  
+                   });
                });
              }
            ];
            async.parallel(tasks, function(err) {
               if (err) return next(err);
+              console.log("--->",data);
               sendTextMessage(sender, "Titre chanson : " + data[0].title);
           });
           sendWaitWrite(sender);
