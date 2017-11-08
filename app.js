@@ -14,6 +14,7 @@ const Bot = require('messenger-bot');
 const request = require('request');
 const config = require('config');
 const musics = require('./collections/musiques');
+const async = require('async');
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
@@ -52,19 +53,30 @@ app.post('/webhook/', function (req, res) {
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id;
-        sendWaitWrite(sender);
         if (message_event.message && message_event.message.text) {
-            musics.find({ archived: false }).then(function(elem, err) {
-                if (err) return callback(err);
-                console.log(elem);
-                if(!elem || elem.length <= 0){
-                  return sendTextMessage(sender, "Aucune chanson trouvé");
-                }
-                elem.map( res => {
-                  sendTextMessage(sender, "Titre chanson : " + res.title)
-                });
-                //let text = message_event.message.text
-            });
+          const data = [];
+          var tasks = [
+             function(callback) {
+               musics.find({ archived: false }).then(function(elem, err) {
+                   if (err) return callback(err);
+                   console.log(elem);
+                   if(!elem || elem.length <= 0){
+                     return sendTextMessage(sender, "Aucune chanson trouvé");
+                   }
+                   elem.map( res => {
+                     data = tes.title;
+                   });
+                   if(callback){
+                    callback();
+                   }
+               });
+             }
+           ];
+           async.parallel(tasks, function(err) {
+              if (err) return next(err);
+              sendTextMessage(sender, "Titre chanson : " + data[0].title);
+          });
+          sendWaitWrite(sender);
         }
     }
     res.sendStatus(200)
