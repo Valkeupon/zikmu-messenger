@@ -62,31 +62,41 @@ app.post('/webhook/', function (req, res) {
                    return sendTextMessage(sender, "Aucune chanson trouvé");
                  }
 
-                 sendTextMessage(sender, elem[0].title);
+                 sendTextMessage(sender, elem[0]);
              });
         }
     }
     res.sendStatus(200)
 });
 
-function sendTextMessage(sender, text) {
+function sendTextMessage(sender, elem) {
     let data = {
       "attachment":{
         "type":"template",
         "payload":{
           "template_type":"button",
-          "text":"Ecouter" + text,
+          "text":"Ecouter " + elem.title + " de " + elem.author.name,
+          "elements":[
+             {
+               "title":"Mug",
+               "subtitle":"En porcelaine",
+               "quantity":4,
+               "price":57,
+               "currency":"EUR",
+               "image_url":"http://monSite/mug.jpg"
+             }
+           ],
           "buttons":[
             {
               "type":"web_url",
               "url":"https://www.supinfo.com/articles/author/143787-nicolas-bonzom",
               "title":"Découvrir"
             },
-          ]
+          ],
         }
       }
     };
-    
+
     let access_token = TOKEN;
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
