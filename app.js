@@ -59,10 +59,10 @@ app.post('/webhook/', function (req, res) {
                 if(!elem || elem.length <= 0){
                   return sendTextMessage(sender, "Aucune chanson trouvé");
                 }
-
-                elem.map( res => {
-                  sendTextMessage(sender, "Titre chanson : " + res.title)
-                });
+                sendWaitWrite(sender);
+                // elem.map( res => {
+                //   sendTextMessage(sender, "Titre chanson : " + res.title)
+                // });
                 //let text = message_event.message.text
             });
         }
@@ -80,6 +80,25 @@ function sendTextMessage(sender, text) {
         json: {
             recipient: {id:sender},
             message: data,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
+
+function sendWaitWrite(sender) {
+    let access_token = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: access_token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            sender_action: 'typing_on'
         }
     }, function(error, response, body) {
         if (error) {
