@@ -78,13 +78,6 @@ function sendTextMessage(sender, elem) {
           "elements":[
              {
               "title": elem.title + ' - ' + elem.author.name,
-              "image_url":"https://petersfancybrownhats.com/company_image.png",
-              "subtitle":"Profite de ce morceau mon gars !",
-              "default_action": {
-                "type": "web_url",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-              },
               "buttons":[
                 {
                   "type":"web_url",
