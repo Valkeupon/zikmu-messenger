@@ -63,12 +63,12 @@ app.post('/webhook/', function (req, res) {
                    if(!elem || elem.length <= 0){
                      return sendTextMessage(sender, "Aucune chanson trouvé");
                    }
-                   elem.map( res => {
-                     data = tes.title;
-                   });
                    if(callback){
                     callback();
                    }
+                   elem.map( res => {
+                     data = res.title;
+                   });  
                });
              }
            ];
