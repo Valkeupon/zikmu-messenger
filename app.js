@@ -78,9 +78,12 @@ function sendTextMessage(sender, elem) {
           "elements":[
              {
               "title": elem.title + ' - ' + elem.author.name,
+              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "subtitle":"Profite de ce morceau mon gars !",
               "buttons":[
                 {
                   "type":"web_url",
+                  "url":"https://api.zikmu-app.fr/",
                   "title":"View Website"
                 },{
                   "type":"postback",
