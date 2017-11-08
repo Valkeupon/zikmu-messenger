@@ -101,7 +101,7 @@ function sendTextMessage(sender, elem) {
             }
           ]
         }
-      };
+      }
     };
 
     let access_token = TOKEN;
