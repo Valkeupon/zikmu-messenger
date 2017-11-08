@@ -74,27 +74,34 @@ function sendTextMessage(sender, elem) {
       "attachment":{
         "type":"template",
         "payload":{
-          "template_type":"button",
-          "text":"Ecouter " + elem.title + " de " + elem.author.name,
+          "template_type":"generic",
           "elements":[
              {
-               "title":"Mug",
-               "subtitle":"En porcelaine",
-               "quantity":4,
-               "price":57,
-               "currency":"EUR",
-               "image_url":"http://monSite/mug.jpg"
-             }
-           ],
-          "buttons":[
-            {
-              "type":"web_url",
-              "url":"https://www.supinfo.com/articles/author/143787-nicolas-bonzom",
-              "title":"Découvrir"
-            },
-          ],
+              "title": elem.title + ' - ' + elem.author.name,
+              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "subtitle":"Profite de ce morceau mon gars !",
+              "default_action": {
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+              },
+              "buttons":[
+                {
+                  "type":"web_url",
+                  "url":"https://petersfancybrownhats.com",
+                  "title":"View Website"
+                },{
+                  "type":"postback",
+                  "title":"Start Chatting",
+                  "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                }
+              ]
+            }
+          ]
         }
-      }
+      };
     };
 
     let access_token = TOKEN;
