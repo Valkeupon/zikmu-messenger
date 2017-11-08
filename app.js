@@ -50,11 +50,11 @@ app.get('/webhook', function(req, res) {
 });
 
 app.post('/webhook/', function (req, res) {
+    const data = [];
     let message_events = req.body.entry[0].messaging
     for (message_event of message_events) {
         let sender = message_event.sender.id;
         if (message_event.message && message_event.message.text) {
-          const data = [];
           var tasks = [
              function(callback) {
                musics.find({ archived: false }).then(function(elem, err) {
@@ -67,7 +67,7 @@ app.post('/webhook/', function (req, res) {
                     callback();
                    }
                    elem.map( res => {
-                     data = res.title;
+                     data.push(res);
                    });
                });
              }
