@@ -70,7 +70,23 @@ app.post('/webhook/', function (req, res) {
 });
 
 function sendTextMessage(sender, text) {
-    let data = { text:text }
+    let data = {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"button",
+          "text":"Ecouter" + text,
+          "buttons":[
+            {
+              "type":"web_url",
+              "url":"https://www.supinfo.com/articles/author/143787-nicolas-bonzom",
+              "title":"Découvrir"
+            },
+          ]
+        }
+      }
+    };
+    
     let access_token = TOKEN;
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
