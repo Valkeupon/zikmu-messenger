@@ -82,15 +82,12 @@ function sendTextMessage(sender, elem) {
               "subtitle":"Profite de ce morceau mon gars !",
               "default_action": {
                 "type": "web_url",
-                "url": "https://api.zikmu-app.fr/",
                 "messenger_extensions": true,
                 "webview_height_ratio": "tall",
-                "fallback_url": "https://api.zikmu-app.fr/"
               },
               "buttons":[
                 {
                   "type":"web_url",
-                  "url":"https://api.zikmu-app.fr/",
                   "title":"View Website"
                 },{
                   "type":"postback",
