@@ -53,16 +53,16 @@ app.post('/webhook/', function (req, res) {
     for (message_event of message_events) {
         let sender = message_event.sender.id;
         if (message_event.message && message_event.message.text) {
-            musics.find({ archived: false }).then(function(elem, err) {
+            musics.aggregate({ archived: false },[ { $sample: { size: 1 } } ]).then(function(elem, err) {
                 if (err) return callback(err);
-
+                console.log(elem);
                 if(!elem || elem.length <= 0){
                   return sendTextMessage(sender, "Aucune chanson trouvé");
                 }
                 sendWaitWrite(sender);
-                // elem.map( res => {
-                //   sendTextMessage(sender, "Titre chanson : " + res.title)
-                // });
+                elem.map( res => {
+                  sendTextMessage(sender, "Titre chanson : " + res.title)
+                });
                 //let text = message_event.message.text
             });
         }
