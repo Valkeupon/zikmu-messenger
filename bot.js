@@ -27,7 +27,7 @@ module.exports = {
                   },{
                     "type":"postback",
                     "title":"Start Chatting",
-                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                    "payload": sender
                   }
                 ]
               }
