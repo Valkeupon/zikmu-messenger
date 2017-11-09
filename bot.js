@@ -64,17 +64,20 @@ module.exports = {
           if(error){
             console.log('ERROR -->', error);
           }
-          console.log('Hi ' + body);
           users.findOne({ archived: false, messengerId: sender }).then(function(doc) {
             if(doc){
               return console.log('Utilisateur inscrit');
             }else{
-              users.insert({
-                firstName: first_name,
-                lastName: last_name,
-                picture: profile_pic,
+              console.log('Hi ' + body);
+              const item = {
+                firstName: body.first_name,
+                lastName: body.last_name,
+                picture: body.profile_pic,
                 messengerId: sender
-              });
+              };
+
+              let data = new users(item);
+              data.save();
             }
           });
       });
