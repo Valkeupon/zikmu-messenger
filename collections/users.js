@@ -1,11 +1,18 @@
 var config = require('./collections');
 
 var musics = [{
-  musicId: String,
-  like: Boolean,
+  musicId: {
+    type: String,
+    required: false
+  },
+  like:{
+    type: Boolean,
+    required: false
+  },
   sendAt: {
     type: Date,
-    default: new Date()
+    default: new Date(),
+    required: false
   }
 }];
 
@@ -33,19 +40,20 @@ var userDataSchema = config.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: false
   },
   password: {
     type: String,
-    required: true
+    required: false
   },
   picture: {
     type: String,
-    required: true
+    required: false
   },
   status: {
     type: String,
-	  default: "admin"
+	  default: "admin",
+    required: false
   },
   musicPlayed: {
     type: [musics],

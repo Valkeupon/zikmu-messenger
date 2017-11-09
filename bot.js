@@ -68,7 +68,7 @@ module.exports = {
             if(doc){
               return console.log('Utilisateur inscrit');
             }else{
-              console.log('Hi ' + body);
+              console.log('Hi ' + body.profile_pic);
               const item = {
                 firstName: body.first_name,
                 lastName: body.last_name,
