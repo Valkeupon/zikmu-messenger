@@ -8,10 +8,6 @@ var users = require('./collections/users');
 
 const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
-send: (sender) => {
-  console.log('private', sender);
-};
-
 module.exports = {
   sendTextMessage: (sender, elem, type) => {
       let data = {};
@@ -26,12 +22,12 @@ module.exports = {
                  "elements":[
                     {
                      "title": elem.title + ' - ' + elem.author.name,
-                     "image_url":"https://petersfancybrownhats.com/company_image.png",
+                     "image_url":"https://img.youtube.com/vi/e1aT8oFCRgI/default.jpg",
                      "subtitle":"Profite de ce morceau mon gars !",
                      "buttons":[
                        {
                          "type":"web_url",
-                         "url":"https://api.zikmu-app.fr/",
+                         "url":"https://www.youtube.com/watch?v=e1aT8oFCRgI",
                          "title":"View Website"
                        },{
                          "type":"postback",
@@ -85,8 +81,6 @@ module.exports = {
           users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
             if(doc){
               console.log('Utilisateur inscrit');
-              sendTextMessage(sender, {}, "alreadyExist");
-              send(sender);
             }else{
               const item = {
                 firstName: body.first_name,
