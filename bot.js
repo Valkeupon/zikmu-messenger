@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
 module.exports = {
-  sendTextMessage: (sender,user, elem) => {
+  sendTextMessage: (sender, elem) => {
+    console.log("sender", sender);
       let data = {
         "attachment":{
           "type":"template",
@@ -27,7 +28,9 @@ module.exports = {
                   },{
                     "type":"postback",
                     "title":"Inscription",
-                    "payload": user
+                    "payload": {
+                      'id': sender.id
+                    }
                   }
                 ]
               }
@@ -41,7 +44,7 @@ module.exports = {
           qs: {access_token: access_token},
           method: 'POST',
           json: {
-              recipient: {id:sender},
+              recipient: {id:sender.id},
               message: data,
           }
       }, function(error, response, body) {
