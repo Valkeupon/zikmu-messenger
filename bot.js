@@ -28,7 +28,7 @@ module.exports = {
                        {
                          "type":"web_url",
                          "url":"https://www.youtube.com/watch?v=" + elem.url,
-                         "title":"View Website"
+                         "title":"Découvrir"
                        },{
                          "type":"postback",
                          "title":"Inscription",
