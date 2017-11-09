@@ -121,30 +121,38 @@ module.exports = {
 
 function sendTextForSignUp(sender){
     let data = {
-      "message":{
-        "text": "Hey ! Bienvenue à toi qui veut écouter de la bonne musiques ! Qu'elles styles souhaite tu écoutais ?"
-      },
       "attachment":{
         "type":"template",
         "payload":{
           "template_type":"generic",
           "elements":[
              {
+              "title": "Hey !! ",
+              "subtitle":"Qu'elle style tu choisi ?",
               "buttons":[
                 {
                   "type":"postback",
                   "title":"Rock",
-                  "payload": sender
+                  "payload": {
+                    'id': sender,
+                    'style': 'rock'
+                  },
                 },
                 {
                   "type":"postback",
                   "title":"Dub",
-                  "payload": sender
+                  "payload": {
+                    'id': sender,
+                    'style': 'dub'
+                  },
                 },
                 {
                   "type":"postback",
                   "title":"Electro",
-                  "payload": sender
+                  "payload": {
+                    'id': sender,
+                    'style': 'electro'
+                  },
                 }
               ]
             }
