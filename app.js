@@ -54,17 +54,17 @@ app.post('/webhook/', function (req, res) {
     for (message_event of message_events) {
         let sender = message_event.sender.id;
         if (message_event.message && message_event.message.text) {
-             musics.aggregate({ $sample: { size: 1 } }).then(function(elem, err) {
-                 if (err) return callback(err);
+           musics.aggregate({ $sample: { size: 1 } }).then(function(elem, err) {
+               if (err) return callback(err);
 
-                 if(!elem){
-                   return bot.sendTextMessage(sender, "Aucune chanson trouvé");
-                 }
+               if(!elem){
+                 return bot.sendTextMessage(sender, "musicEmpty");
+               }
 
-                 bot.sendTextMessage(sender, elem[0]);
-             });
+               bot.sendTextMessage(sender, elem[0], "music");
+           });
         }else if (message_event.postback) {
-            bot.signUpProfile(message_event.postback.payload);
+          bot.signUpProfile(message_event.postback.payload);
         }
     }
     res.sendStatus(200);

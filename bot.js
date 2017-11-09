@@ -9,33 +9,46 @@ var users = require('./collections/users');
 const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
 module.exports = {
-  sendTextMessage: (sender, elem) => {
-      let data = {
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-               {
-                "title": elem.title + ' - ' + elem.author.name,
-                "image_url":"https://petersfancybrownhats.com/company_image.png",
-                "subtitle":"Profite de ce morceau mon gars !",
-                "buttons":[
-                  {
-                    "type":"web_url",
-                    "url":"https://api.zikmu-app.fr/",
-                    "title":"View Website"
-                  },{
-                    "type":"postback",
-                    "title":"Inscription",
-                    "payload": sender
-                  }
-                ]
+  sendTextMessage: (sender, elem, type) => {
+      let data = {};
+      switch(type) {
+       case "music":
+          data = {
+             "attachment":{
+               "type":"template",
+               "payload":{
+                 "template_type":"generic",
+                 "elements":[
+                    {
+                     "title": elem.title + ' - ' + elem.author.name,
+                     "image_url":"https://petersfancybrownhats.com/company_image.png",
+                     "subtitle":"Profite de ce morceau mon gars !",
+                     "buttons":[
+                       {
+                         "type":"web_url",
+                         "url":"https://api.zikmu-app.fr/",
+                         "title":"View Website"
+                       },{
+                         "type":"postback",
+                         "title":"Inscription",
+                         "payload": sender
+                       }
+                     ]
+                   }
+                 ]
+               }
+             }
+           };
+           break;
+       case "alreadyExist":
+           data = {
+              "message":{
+                "text": "Vous êtes déjà inscrit sur Zikmu"
               }
-            ]
-          }
-        }
-      };
+            };
+           break;
+      }
+
       let access_token = TOKEN;
       request({
           url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -66,9 +79,9 @@ module.exports = {
           }
           users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
             if(doc){
-              return console.log('Utilisateur inscrit');
+              console.log('Utilisateur inscrit');
+              return sendTextMessage(sender, "alreadyExist");
             }else{
-              console.log('Hi ' + body.profile_pic);
               const item = {
                 firstName: body.first_name,
                 lastName: body.last_name,

@@ -62,7 +62,7 @@ var userDataSchema = config.Schema({
   actif: {
     type: String,
     required: true,
-    default: true
+    default: false
   },
   recurrence: {
     type: String,
