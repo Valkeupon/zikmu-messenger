@@ -41,7 +41,7 @@ module.exports = {
           qs: {access_token: access_token},
           method: 'POST',
           json: {
-              recipient: {id:sender.id},
+              recipient: {id:sender},
               message: data,
           }
       }, function(error, response, body) {
