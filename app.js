@@ -64,6 +64,9 @@ app.post('/webhook/', function (req, res) {
                  bot.sendTextMessage(sender, elem[0]);
              });
         }
+        if (message_event.postback) {
+            console.log(message_event.postback);
+        }
     }
     res.sendStatus(200)
 });
