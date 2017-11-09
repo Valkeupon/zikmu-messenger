@@ -22,7 +22,7 @@ module.exports = {
                  "elements":[
                     {
                      "title": elem.title + ' - ' + elem.author.name,
-                     "image_url":"https://img.youtube.com/vi/e1aT8oFCRgI/default.jpg",
+                     "image_url":"https://img.youtube.com/vi/e1aT8oFCRgI/hqdefault.jpg",
                      "subtitle":"Profite de ce morceau mon gars !",
                      "buttons":[
                        {
