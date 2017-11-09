@@ -104,7 +104,6 @@ var sess;
 
     var item = {
       title: req.body.title,
-      url: req.body.url,
     };
 
     var tasks = [
@@ -130,6 +129,17 @@ var sess;
                item.styles = result;
                callback();
            });
+       },
+       function(callback){
+          const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+          const match = req.body.url.match(regExp);
+
+          if( match && match[7].length==11 ){
+            item.url = match[7];
+            callback();
+          } else {
+            false;
+          }
        }
      ];
 
