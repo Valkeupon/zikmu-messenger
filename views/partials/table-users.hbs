@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-header" data-background-color="orange">
+        <h4 class="title">Listes des utilisateurs</h4>
+        <p class="category">Nouveaux groupes publié 15th September, 2016</p>
+    </div>
+    <div class="card-content table-responsive">
+        <table class="table table-hover">
+            <thead class="text-warning">
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>email</th>
+            </thead>
+            <tbody>
+              {{# each users }}
+                  <tr>
+                      <td>{{ this.lastName }}</td>
+                      <td>{{ this.firstName }}</td>
+                      <td>{{ this.email }}</td>
+                      <td>
+                        <form action="/admin/groupes/delete-groupe-action" method="post">
+                          <input type="hidden" id="_id" name="_id" value={{ this._id }}>
+                          <button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </form>
+                      </td>
+                  </tr>
+              {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

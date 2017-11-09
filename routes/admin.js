@@ -285,34 +285,47 @@ var sess;
   });
 
 
-    //display page styles
-    router.get('/styles', function(req, res, next) {
-        sess = req.session;
-        if(sess.email) {
-            styles.find({ archived: false })
-                .then(function(doc) {
-                    res.render('admin/styles', {items: doc});
-                });
-        } else {
-            res.redirect('/admin');
-        }
-    });
-    //action insert styles
-    router.post('/styles/insert-style', function(req, res, next) {
-        if(!req.body.title){
-            return;
-        }
+  //display page styles
+  router.get('/styles', function(req, res, next) {
+      sess = req.session;
+      if(sess.email) {
+          styles.find({ archived: false })
+              .then(function(doc) {
+                  res.render('admin/styles', {items: doc});
+              });
+      } else {
+          res.redirect('/admin');
+      }
+  });
+  //action insert styles
+  router.post('/styles/insert-style', function(req, res, next) {
+      if(!req.body.title){
+          return;
+      }
 
-        var item = {
-            title: req.body.title,
-        };
+      var item = {
+          title: req.body.title,
+      };
 
-        console.log("INSERT ----> ", item );
+      console.log("INSERT ----> ", item );
 
-        var data = new styles(item);
-        data.save();
+      var data = new styles(item);
+      data.save();
 
-        res.redirect('/admin/styles');
-    });
+      res.redirect('/admin/styles');
+  });
+  //display page users
+  router.get('/users', function(req, res, next) {
+    sess = req.session;
+    if(sess.email) {
+      users.find({ archived: false, status: "user" })
+          .then(function(doc) {
+            res.render('admin/users', {items: doc});
+        });
+    }
+    else {
+      res.redirect('/admin');
+    }
+  });
 
-  module.exports = router;
+module.exports = router;

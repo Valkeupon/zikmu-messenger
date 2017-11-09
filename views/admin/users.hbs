@@ -1,0 +1,16 @@
+{{> sidebar }}
+<div class="main-panel">
+  {{> nav }}
+  <div class="content">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-xs-12">
+        <h3>Listes des utilisateurs inscrits</h3>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="col-lg-12 col-md-12">
+        {{> table-users users= items }}
+    </div>
+  </div>
+</div>

@@ -37,7 +37,7 @@ var userDataSchema = config.Schema({
   },
   status: {
     type: String,
-	default: "admin"
+	  default: "admin"
   },
   musicPlayed: {
     type: [musics],
