@@ -64,10 +64,10 @@ app.post('/webhook/', function (req, res) {
                  bot.sendTextMessage(sender, elem[0]);
              });
         }else if (message_event.postback) {
-            bot.getProfile(message_event.postback.payload);
+            bot.signUpProfile(message_event.postback.payload);
         }
     }
-    res.sendStatus(200)
+    res.sendStatus(200);
 });
 
 //uncomment after placing your favicon in /public

@@ -4,6 +4,7 @@ const express = require('express');
 const fs = require('fs');
 let router = express.Router();
 const bodyParser = require('body-parser');
+var users = require('../collections/users');
 
 const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
@@ -52,7 +53,7 @@ module.exports = {
           }
       })
   },
-  getProfile: (sender) => {
+  signUpProfile: (sender) => {
       let access_token = TOKEN;
       let usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + access_token;
       request({
@@ -60,9 +61,22 @@ module.exports = {
           method: 'GET',
           json: true // parse
       }, function (error, response, body) {
-          if (!error && response.statusCode === 200) {
-              console.log('Hi ' + body.first_name);
+          if(error){
+            console.log('ERROR -->', error);
           }
+          console.log('Hi ' + body);
+          users.findOne({ archived: false, messengerId: sender }).then(function(doc) {
+            if(doc){
+              return console.log('Utilisateur inscrit');
+            }else{
+              users.insert({
+                firstName: first_name,
+                lastName: last_name,
+                picture: profile_pic,
+                messengerId: sender
+              });
+            }
+          });
       });
   },
   sendWaitWrite: (sender) => {

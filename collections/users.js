@@ -19,6 +19,10 @@ var styles = [{
 }];
 
 var userDataSchema = config.Schema({
+  messengerId: {
+    type: String,
+    required: false
+  },
   firstName: {
     type: String,
     required: false
@@ -32,6 +36,10 @@ var userDataSchema = config.Schema({
     required: true
   },
   password: {
+    type: String,
+    required: true
+  },
+  picture: {
     type: String,
     required: true
   },

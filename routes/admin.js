@@ -321,7 +321,7 @@ var sess;
       users.find({ archived: false, status: "user" })
           .then(function(doc) {
             res.render('admin/users', {items: doc});
-        });
+      });
     }
     else {
       res.redirect('/admin');
