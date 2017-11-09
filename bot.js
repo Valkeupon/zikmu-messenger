@@ -9,7 +9,6 @@ const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiS
 
 module.exports = {
   sendTextMessage: (sender, elem) => {
-    console.log("sender", sender);
       let data = {
         "attachment":{
           "type":"template",
@@ -28,9 +27,7 @@ module.exports = {
                   },{
                     "type":"postback",
                     "title":"Inscription",
-                    "payload": {
-                      'id': sender.id
-                    }
+                    "payload": sender
                   }
                 ]
               }
@@ -44,7 +41,7 @@ module.exports = {
           qs: {access_token: access_token},
           method: 'POST',
           json: {
-              recipient: {id:sender.id},
+              recipient: {id: sender},
               message: data,
           }
       }, function(error, response, body) {
