@@ -45,7 +45,7 @@ module.exports = {
            data = {
               "message":{
                 "text": "Vous êtes déjà inscrit sur Zikmu"
-              }
+              },
             };
            break;
       }
@@ -78,10 +78,10 @@ module.exports = {
           if(error){
             console.log('ERROR -->', error);
           }
-          users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
-            if(doc){
-              console.log('Utilisateur inscrit');
-            }else{
+          // users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
+          //   if(doc){
+          //     console.log('Utilisateur inscrit');
+          //   }else{
               const item = {
                 firstName: body.first_name,
                 lastName: body.last_name,
@@ -92,9 +92,62 @@ module.exports = {
 
               let data = new users(item);
               data.save();
-            }
-          });
+              sendTextForSignUp(sender);
+
+
+          // });
       });
+  },
+  sendTextForSignUp: (sender) => {
+      let data = {
+        "message":{
+          "text": "Hey ! Bienvenue à toi qui veut écouter de la bonne musiques ! Qu'elles styles souhaite tu écoutais ?"
+        },
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"generic",
+            "elements":[
+               {
+                "buttons":[
+                  {
+                    "type":"postback",
+                    "title":"Rock",
+                    "payload": sender
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Dub",
+                    "payload": sender
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Electro",
+                    "payload": sender
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      };
+
+      let access_token = TOKEN;
+      request({
+          url: 'https://graph.facebook.com/v2.6/me/messages',
+          qs: {access_token: access_token},
+          method: 'POST',
+          json: {
+              recipient: {id: sender},
+              message: data,
+          }
+      }, function(error, response, body) {
+          if (error) {
+              console.log('Error sending messages: ', error)
+          } else if (response.body.error) {
+              console.log('Error: ', response.body.error)
+          }
+      })
   },
   sendWaitWrite: (sender) => {
       let access_token = TOKEN;
