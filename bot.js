@@ -4,7 +4,7 @@ const express = require('express');
 const fs = require('fs');
 let router = express.Router();
 const bodyParser = require('body-parser');
-var users = require('../collections/users');
+var users = require('./collections/users');
 
 const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
