@@ -26,7 +26,7 @@ module.exports = {
                     "title":"View Website"
                   },{
                     "type":"postback",
-                    "title":"Start Chatting",
+                    "title":"Inscription",
                     "payload": sender
                   }
                 ]
@@ -41,7 +41,7 @@ module.exports = {
           qs: {access_token: access_token},
           method: 'POST',
           json: {
-              recipient: {id:sender},
+              recipient: {id:sender.id},
               message: data,
           }
       }, function(error, response, body) {
