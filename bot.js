@@ -61,7 +61,7 @@ module.exports = {
           json: true // parse
       }, function (error, response, body) {
           if (!error && response.statusCode === 200) {
-              convo.say('Hi ' + body.first_name);
+              console.log('Hi ' + body.first_name);
           }
       });
   },
