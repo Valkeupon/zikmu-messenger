@@ -133,26 +133,17 @@ function sendTextForSignUp(sender){
                 {
                   "type":"postback",
                   "title":"Rock",
-                  "payload": {
-                    'id': sender,
-                    'style': 'rock'
-                  },
+                  "payload": sender
                 },
                 {
                   "type":"postback",
                   "title":"Dub",
-                  "payload": {
-                    'id': sender,
-                    'style': 'dub'
-                  },
+                  "payload": sender
                 },
                 {
                   "type":"postback",
                   "title":"Electro",
-                  "payload": {
-                    'id': sender,
-                    'style': 'electro'
-                  },
+                  "payload": sender
                 }
               ]
             }
