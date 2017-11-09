@@ -22,12 +22,12 @@ module.exports = {
                  "elements":[
                     {
                      "title": elem.title + ' - ' + elem.author.name,
-                     "image_url":"https://img.youtube.com/vi/e1aT8oFCRgI/hqdefault.jpg",
+                     "image_url":"https://img.youtube.com/vi/" + elem.url + "/hqdefault.jpg",
                      "subtitle":"Profite de ce morceau mon gars !",
                      "buttons":[
                        {
                          "type":"web_url",
-                         "url":"https://www.youtube.com/watch?v=e1aT8oFCRgI",
+                         "url":"https://www.youtube.com/watch?v=" + elem.url,
                          "title":"View Website"
                        },{
                          "type":"postback",
