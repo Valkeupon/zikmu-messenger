@@ -8,6 +8,10 @@ var users = require('./collections/users');
 
 const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
+send: (sender) => {
+  console.log('private', sender);
+};
+
 module.exports = {
   sendTextMessage: (sender, elem, type) => {
       let data = {};
@@ -81,7 +85,8 @@ module.exports = {
           users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
             if(doc){
               console.log('Utilisateur inscrit');
-              return sendTextMessage(sender, {}, "alreadyExist");
+              sendTextMessage(sender, {}, "alreadyExist");
+              send(sender);
             }else{
               const item = {
                 firstName: body.first_name,
