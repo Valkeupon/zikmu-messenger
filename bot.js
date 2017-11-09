@@ -78,10 +78,11 @@ module.exports = {
           if(error){
             console.log('ERROR -->', error);
           }
-          // users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
-          //   if(doc){
-          //     console.log('Utilisateur inscrit');
-          //   }else{
+          users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
+            if(doc){
+              console.log('Utilisateur inscrit');
+              sendTextForSignUp(sender);
+            }else{
               const item = {
                 firstName: body.first_name,
                 lastName: body.last_name,
@@ -93,9 +94,7 @@ module.exports = {
               let data = new users(item);
               data.save();
               sendTextForSignUp(sender);
-
-
-          // });
+          });
       });
   },
   sendWaitWrite: (sender) => {
@@ -133,17 +132,17 @@ function sendTextForSignUp(sender){
                 {
                   "type":"postback",
                   "title":"Rock",
-                  "payload": sender
+                  "payload": sender + "&style=rock"
                 },
                 {
                   "type":"postback",
                   "title":"Dub",
-                  "payload": sender
+                  "payload": sender + "&style=dub"
                 },
                 {
                   "type":"postback",
                   "title":"Electro",
-                  "payload": sender
+                  "payload": sender + "&style=electro"
                 }
               ]
             }
