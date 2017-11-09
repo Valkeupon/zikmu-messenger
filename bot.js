@@ -11,6 +11,7 @@ const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiS
 module.exports = {
   sendTextMessage: (sender, elem, type) => {
       let data = {};
+      console.log(type);
       switch(type) {
        case "music":
           data = {
@@ -80,7 +81,7 @@ module.exports = {
           users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
             if(doc){
               console.log('Utilisateur inscrit');
-              return sendTextMessage(sender, "alreadyExist");
+              return sendTextMessage(sender, {}, "alreadyExist");
             }else{
               const item = {
                 firstName: body.first_name,

@@ -58,7 +58,7 @@ app.post('/webhook/', function (req, res) {
                if (err) return callback(err);
 
                if(!elem){
-                 return bot.sendTextMessage(sender, "musicEmpty");
+                 return bot.sendTextMessage(sender, {},  "musicEmpty");
                }
 
                bot.sendTextMessage(sender, elem[0], "music");
