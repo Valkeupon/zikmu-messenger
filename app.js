@@ -60,8 +60,7 @@ app.post('/webhook/', function (req, res) {
               if(!elem || elem.length <= 0 ){
                  return bot.sendTextMessage(sender, {},  "musicEmpty");
               }
-              console.log(elem);
-            
+
               const item = elem[Math.floor(Math.random() * elem.length)];
               bot.sendTextMessage(sender, item, "music");
            });

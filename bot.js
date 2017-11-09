@@ -98,57 +98,6 @@ module.exports = {
           // });
       });
   },
-  sendTextForSignUp: (sender) => {
-      let data = {
-        "message":{
-          "text": "Hey ! Bienvenue à toi qui veut écouter de la bonne musiques ! Qu'elles styles souhaite tu écoutais ?"
-        },
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-               {
-                "buttons":[
-                  {
-                    "type":"postback",
-                    "title":"Rock",
-                    "payload": sender
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Dub",
-                    "payload": sender
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Electro",
-                    "payload": sender
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      };
-
-      let access_token = TOKEN;
-      request({
-          url: 'https://graph.facebook.com/v2.6/me/messages',
-          qs: {access_token: access_token},
-          method: 'POST',
-          json: {
-              recipient: {id: sender},
-              message: data,
-          }
-      }, function(error, response, body) {
-          if (error) {
-              console.log('Error sending messages: ', error)
-          } else if (response.body.error) {
-              console.log('Error: ', response.body.error)
-          }
-      })
-  },
   sendWaitWrite: (sender) => {
       let access_token = TOKEN;
       request({
@@ -168,4 +117,56 @@ module.exports = {
       })
   },
 
+};
+
+function sendTextForSignUp(sender){
+    let data = {
+      "message":{
+        "text": "Hey ! Bienvenue à toi qui veut écouter de la bonne musiques ! Qu'elles styles souhaite tu écoutais ?"
+      },
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "buttons":[
+                {
+                  "type":"postback",
+                  "title":"Rock",
+                  "payload": sender
+                },
+                {
+                  "type":"postback",
+                  "title":"Dub",
+                  "payload": sender
+                },
+                {
+                  "type":"postback",
+                  "title":"Electro",
+                  "payload": sender
+                }
+              ]
+            }
+          ]
+        }
+      }
+    };
+
+    let access_token = TOKEN;
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: access_token},
+        method: 'POST',
+        json: {
+            recipient: {id: sender},
+            message: data,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 };
