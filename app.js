@@ -61,9 +61,11 @@ app.post('/webhook/', function (req, res) {
                if(!elem || elem.length <= 0 ){
                  return bot.sendTextMessage(sender, {},  "musicEmpty");
                }
+               console.log(elem);
+               console.log('Rand', Math.floor(Math.random() * elem.length));
 
-               const item = elem[Math.floor( Math.random() * elem.length )];
-               bot.sendTextMessage(sender, item, "music");
+              //  const item = elem[];
+              //  bot.sendTextMessage(sender, item, "music");
            });
         }else if (message_event.postback) {
           bot.signUpProfile(message_event.postback.payload);
