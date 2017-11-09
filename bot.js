@@ -94,6 +94,7 @@ module.exports = {
               let data = new users(item);
               data.save();
               sendTextForSignUp(sender);
+            }
           });
       });
   },
