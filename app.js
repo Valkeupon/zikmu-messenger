@@ -15,6 +15,7 @@ const request = require('request');
 const config = require('config');
 const musics = require('./collections/musiques');
 const async = require('async');
+const bot = require('./bot');
 
 const routes = require('./routes/index');
 const admin = require('./routes/admin');
@@ -36,7 +37,6 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.json());
 
 const VALIDATION_TOKEN = "8bQ9470R9we90Jo8q4TcS85vCJa0vqCrpUM8LMoO";
-const TOKEN = "EAAXkoGyQMgUBAMfLg5CAzB0zNFnlYPk9s4pUZCOZAED6Hq40O9mhqqWYFFfaOtiSv3PDbPnnejhZBy7ZAfv4ZAYBH6gpTKwmTPlj9VptMkZCHy4432dgDLNOD3itCoer8an8Qi2gKknjMqEvfIrAsKy5ieslVdoZAwdLHZC9cVDUxwZDZD";
 
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
@@ -57,82 +57,16 @@ app.post('/webhook/', function (req, res) {
              musics.aggregate({ $sample: { size: 1 } }).then(function(elem, err) {
                  if (err) return callback(err);
 
-                 console.log(elem);
                  if(!elem){
-                   return sendTextMessage(sender, "Aucune chanson trouvé");
+                   return bot.sendTextMessage(sender, "Aucune chanson trouvé");
                  }
 
-                 sendTextMessage(sender, elem[0]);
+                 bot.sendTextMessage(sender, elem[0]);
              });
         }
     }
     res.sendStatus(200)
 });
-
-function sendTextMessage(sender, elem) {
-    let data = {
-      "attachment":{
-        "type":"template",
-        "payload":{
-          "template_type":"generic",
-          "elements":[
-             {
-              "title": elem.title + ' - ' + elem.author.name,
-              "image_url":"https://petersfancybrownhats.com/company_image.png",
-              "subtitle":"Profite de ce morceau mon gars !",
-              "buttons":[
-                {
-                  "type":"web_url",
-                  "url":"https://api.zikmu-app.fr/",
-                  "title":"View Website"
-                },{
-                  "type":"postback",
-                  "title":"Start Chatting",
-                  "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    };
-
-    let access_token = TOKEN;
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: access_token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: data,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
-}
-
-function sendWaitWrite(sender) {
-    let access_token = TOKEN;
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: access_token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            sender_action: 'typing_on'
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
-}
 
 //uncomment after placing your favicon in /public
 app.use(logger('dev'));
