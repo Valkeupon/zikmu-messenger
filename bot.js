@@ -64,7 +64,7 @@ module.exports = {
           if(error){
             console.log('ERROR -->', error);
           }
-          users.findOne({ archived: false, messengerId: sender }).then(function(doc) {
+          users.findOne({ archived: false, messengerId: sender, status: "user" }).then(function(doc) {
             if(doc){
               return console.log('Utilisateur inscrit');
             }else{
@@ -73,7 +73,8 @@ module.exports = {
                 firstName: body.first_name,
                 lastName: body.last_name,
                 picture: body.profile_pic,
-                messengerId: sender
+                messengerId: sender,
+                status: "user"
               };
 
               let data = new users(item);
