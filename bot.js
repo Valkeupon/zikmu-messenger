@@ -52,6 +52,19 @@ module.exports = {
           }
       })
   },
+  getProfile: (sender) => {
+      let access_token = TOKEN;
+      let usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + access_token;
+      request({
+          url: usersPublicProfile,
+          method: 'GET',
+          json: true // parse
+      }, function (error, response, body) {
+          if (!error && response.statusCode === 200) {
+              convo.say('Hi ' + body.first_name);
+          }
+      });
+  },
   sendWaitWrite: (sender) => {
       let access_token = TOKEN;
       request({
