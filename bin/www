@@ -8,12 +8,12 @@ const debug = require('debug')('05-express-first-app:server');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
-
+ 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8000');  
+var port = normalizePort(process.env.PORT || '8000');
 app.set('port', port);
 
 let server = null;

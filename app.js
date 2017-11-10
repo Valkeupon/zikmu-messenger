@@ -66,6 +66,7 @@ app.post('/webhook/', function (req, res) {
            });
         }else if (message_event.postback) {
           console.log(message_event.postback);
+          
           bot.signUpProfile(message_event.postback.payload);
         }
     }
